@@ -17,7 +17,7 @@ class FoodIngredient(models.Model):
         ("d", "Dairy"),
     ]
     name = models.CharField(max_length=30)
-    category = models.ForeignKey(FoodCategory)
+    category = models.ForeignKey(FoodCategory, on_delete=models.SET_NULL)
     food_group = models.CharField(max_length=2, choices=FOOD_GROUPS)
     carbohydrates = models.FloatField()
     fats = models.FloatField()
