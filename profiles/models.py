@@ -9,6 +9,9 @@ class Profile(models.Model):
     weight = models.FloatField(blank=True, null=True)
     height = models.IntegerField(blank=True, null=True)
 
+    def __str__(self):
+        return f"{self.user.first_name} {self.user.last_name}"
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
