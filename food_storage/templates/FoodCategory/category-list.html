@@ -14,4 +14,10 @@
             {% endfor %}
         </ul>
     </div>
+    <div class="buttons">
+        <input type="button"
+               class="button button-create"
+               value="Create New"
+               onclick="location.href='{% url 'food_storage:category-create'%}'">
+    </div>
 {% endblock %}
