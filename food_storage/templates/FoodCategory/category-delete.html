@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load project_tags %}
+{% block title %}
+    <title>Delete Food Category</title>
+{% endblock %}
+{% block content %}
+    <h1>{{ object | to_verbose_name }}</h1>
+    <h2>{{ object.name }}</h2>
+    <form method="post" class="delete-form food-category">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="buttons">
+            <input type="submit" class="button button-delete" value="Delete">
+        </div>
+    </form>
+{% endblock %}

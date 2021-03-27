@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Create Food Category</title>
+{% endblock %}
+{% block content %}
+    <form method="post" class="create-form food-category">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="buttons">
+            <input type="submit" class="button button-create" value="Create">
+        </div>
+    </form>
+{% endblock %}
