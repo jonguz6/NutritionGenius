@@ -6,8 +6,8 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    weight = models.FloatField(blank=True)
-    height = models.IntegerField(blank=True)
+    weight = models.FloatField(blank=True, null=True)
+    height = models.IntegerField(blank=True, null=True)
 
 
 @receiver(post_save, sender=User)
