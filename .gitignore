@@ -127,4 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/secrets.py
+secrets_django.py
+.idea/
