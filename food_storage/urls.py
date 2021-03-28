@@ -22,4 +22,20 @@ urlpatterns = [
          views.FoodCategoryDeleteView.as_view(), 
          name="category-delete"),
     
+    path('ingredient-create/', 
+         views.FoodIngredientCreateView.as_view(), 
+         name="ingredient-create"),
+    path('ingredient-list/',
+         views.FoodIngredientListView.as_view(),
+         name="ingredient-list"),
+    path('ingredient-detail/<pk>/',
+         views.FoodIngredientDetailView.as_view(), 
+         name="ingredient-detail"),
+    path('ingredient-update/<pk>/',
+         views.FoodIngredientUpdateView.as_view(), 
+         name="ingredient-update"),
+    path('ingredient-delete/<pk>/',
+         views.FoodIngredientDeleteView.as_view(), 
+         name="ingredient-delete"),
+    
 ]

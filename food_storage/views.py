@@ -24,6 +24,7 @@ class FoodCategoryDetailView(views.DetailView):
 
 class FoodCategoryUpdateView(views.UpdateView):
     model = models.FoodCategory
+    fields = "__all__"
     template_name = "FoodCategory/category-update.html"
     success_url = reverse_lazy('food_storage:category-list')
 
@@ -32,6 +33,36 @@ class FoodCategoryDeleteView(views.DeleteView):
     model = models.FoodCategory
     template_name = "FoodCategory/category-delete.html"
     success_url = reverse_lazy('food_storage:category-list')
+
+
+class FoodIngredientCreateView(views.CreateView):
+    model = models.FoodIngredient
+    fields = "__all__"
+    template_name = "FoodIngredient/ingredient-create.html"
+    success_url = reverse_lazy('food_storage:ingredient-list')
+
+
+class FoodIngredientListView(views.ListView):
+    model = models.FoodIngredient
+    template_name = "FoodIngredient/ingredient-list.html"
+
+
+class FoodIngredientDetailView(views.DetailView):
+    model = models.FoodIngredient
+    template_name = "FoodIngredient/ingredient-detail.html"
+
+
+class FoodIngredientUpdateView(views.UpdateView):
+    model = models.FoodIngredient
+    fields = "__all__"
+    template_name = "FoodIngredient/ingredient-update.html"
+    success_url = reverse_lazy('food_storage:ingredient-list')
+
+
+class FoodIngredientDeleteView(views.DeleteView):
+    model = models.FoodIngredient
+    template_name = "FoodIngredient/ingredient-delete.html"
+    success_url = reverse_lazy('food_storage:ingredient-list')
 
 
 def index(request):

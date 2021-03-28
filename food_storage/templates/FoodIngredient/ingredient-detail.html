@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load project_tags %}
+{% block content %}
+    <h1>{{ object | to_verbose_name }}</h1>
+    <h2>{{ object.name }}</h2>
+    <p>Category: {{ object.category }}</p>
+    <p>Food Group: {{ object.get_food_group_display }}</p>
+    <p>Carbs: {{ object.carbohydrates }}</p>
+    <p>Fat: {{ object.fats }}</p>
+    <p>Standard portion: {{ object.standard_portion }} g</p>
+    <div class="buttons food-category">
+        <input type="submit"
+               class="button button-update"
+               value="Update"
+               onclick="location.href=
+                       '{% url 'food_storage:category-update' pk=object.pk %}'">
+        <input type="submit"
+               class="button button-delete"
+               value="Delete"
+               onclick="location.href=
+                       '{% url 'food_storage:category-delete' pk=object.pk %}'">
+    </div>
+{% endblock %}
