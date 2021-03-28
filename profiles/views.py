@@ -10,7 +10,7 @@ class ProfileCreateView(views.CreateView):
     model = models.Profile
     form_class = ProfileForm
     template_name = "Profile/profile-create.html"
-    success_url = reverse_lazy('food_storage:category-list')
+    success_url = reverse_lazy('profiles:profile-list')
 
 
 class ProfileListView(views.ListView):
@@ -27,13 +27,13 @@ class ProfileUpdateView(views.UpdateView):
     model = models.Profile
     form_class = ProfileForm
     template_name = "Profile/profile-update.html"
-    success_url = reverse_lazy('food_storage:category-list')
+    success_url = reverse_lazy('profiles:profile-list')
 
 
 class ProfileDeleteView(views.DeleteView):
     model = models.Profile
     template_name = "Profile/profile-delete.html"
-    success_url = reverse_lazy('food_storage:category-list')
+    success_url = reverse_lazy('profiles:profile-list')
 
 
 def index(request):
