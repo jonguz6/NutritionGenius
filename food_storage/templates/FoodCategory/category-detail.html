@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load project_tags %}
+{% block content %}
+    <div class="titles">
+        <h1>{{ object | to_verbose_name }}</h1>
+        <h2>{{ object.name }}</h2>
+    </div>
+    <div class="details">
+        {% if object.Ingredients.first %}
+            <ul>
+                {% for ingredient in object.Ingredients.all %}
+                    <a href="{% url 'food_storage:ingredient-detail' pk=ingredient.pk %}">
+                        {{ ingredient.name }}
+                    </a>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    <div class="buttons food-category">
+        <input type="submit"
+               class="button button-update"
+               value="Update"
+               onclick="location.href=
+                       '{% url 'food_storage:category-update' pk=object.pk %}'">
+        <input type="submit"
+               class="button button-delete"
+               value="Delete"
+               onclick="location.href=
+                       '{% url 'food_storage:category-delete' pk=object.pk %}'">
+    </div>
+{% endblock %}
