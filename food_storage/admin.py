@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from food_storage.models import FoodCategory, FoodIngredient
+
+admin.site.register(FoodCategory)
+admin.site.register(FoodIngredient)
