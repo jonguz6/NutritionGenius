@@ -21,16 +21,20 @@ class FoodIngredient(models.Model):
         ("d", "Dairy"),
     ]
     name = models.CharField(max_length=30)
-    category = models.ForeignKey(FoodCategory, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(FoodCategory,
+                                 on_delete=models.SET_NULL,
+                                 null=True,
+                                 related_name="Ingredients")
     food_group = models.CharField(max_length=2, choices=FOOD_GROUPS)
     carbohydrates = models.FloatField()
     fats = models.FloatField()
     protein = models.FloatField()
+    calories = models.IntegerField()
     quantity = models.IntegerField(default=1)
     standard_portion = models.IntegerField(null=True)
 
     class Meta:
-        verbose_name = "Ingredients"
+        verbose_name = "Ingredient"
 
     def __str__(self):
         return self.name
