@@ -5,12 +5,17 @@ from django.dispatch import receiver
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User,
+                                on_delete=models.CASCADE,
+                                related_name="profile",
+                                primary_key=True)
     weight = models.FloatField(blank=True, null=True)
     height = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.user.first_name} {self.user.last_name}"
+        if self.user.first_name or self.user.last_name != "":
+            return f"{self.user.first_name} {self.user.last_name}"
+        return f"username: {self.user.username}"
 
 
 @receiver(post_save, sender=User)
