@@ -3,11 +3,12 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 
 from profiles import models
+from profiles.forms import ProfileForm
 
 
 class ProfileCreateView(views.CreateView):
     model = models.Profile
-    fields = "__all__"
+    form_class = ProfileForm
     template_name = "Profile/profile-create.html"
     success_url = reverse_lazy('food_storage:category-list')
 
@@ -24,7 +25,7 @@ class ProfileDetailView(views.DetailView):
 
 class ProfileUpdateView(views.UpdateView):
     model = models.Profile
-    fields = "__all__"
+    form_class = ProfileForm
     template_name = "Profile/profile-update.html"
     success_url = reverse_lazy('food_storage:category-list')
 
