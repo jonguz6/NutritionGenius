@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load project_tags %}
+{% block title %}
+    <title>{{ object.name }} Detail View</title>
+{% endblock %}
+{% block content %}
+    <div class="titles">
+        <h1>{{ object | to_verbose_name }}</h1>
+        <h2>{{ object.user.username }}</h2>
+    </div>
+    <div class="details">
+        <p>Name: {{ object.user.first_name }} {{ object.user.last_name }}</p>
+        <p>Weight: {{ object.weight }}</p>
+        <p>Height: {{ object.height }}</p>
+    </div>
+    <div class="buttons profile">
+        <input type="submit"
+               class="button button-update"
+               value="Update"
+               onclick="location.href=
+                       '{% url 'profiles:profile-update' pk=object.pk %}'">
+        <input type="submit"
+               class="button button-delete"
+               value="Delete"
+               onclick="location.href=
+                       '{% url 'profiles:profile-delete' pk=object.pk %}'">
+    </div>
+{% endblock %}
