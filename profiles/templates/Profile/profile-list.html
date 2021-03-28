@@ -9,7 +9,13 @@
             {% for object in object_list %}
                 <li>
                     <a href="{% url 'profiles:profile-detail' pk=object.pk %}">
-                        {{ object.user.username }}
+                        {% with f_name=object.user.first_name l_name=object.user.last_name %}
+                            {% if f_name != "" or l_name != "" %}
+                                {{ f_name }} {{ l_name }}
+                            {% else %}
+                                username: {{ object.user.username }}
+                            {% endif %}
+                        {% endwith %}
                     </a>
                 </li>
             {% endfor %}
