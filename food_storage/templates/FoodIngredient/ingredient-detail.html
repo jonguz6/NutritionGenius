@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load project_tags %}
 {% block content %}
-    <h1>{{ object | to_verbose_name }}</h1>
+    <h1>{{ object | to_verbose_name | capfirst }}</h1>
     <h2>{{ object.name }}</h2>
     <p>Category: {{ object.category }}</p>
     <p>Food Group: {{ object.get_food_group_display }}</p>
