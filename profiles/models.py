@@ -13,7 +13,7 @@ class Profile(models.Model):
     height = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        if self.user.first_name or self.user.last_name != "":
+        if self.user.first_name != "" or self.user.last_name != "":
             return f"{self.user.first_name} {self.user.last_name}"
         return f"username: {self.user.username}"
 
