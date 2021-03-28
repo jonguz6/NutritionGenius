@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="titles">
-        <h1>{{ objects | to_verbose_name }}</h1>
+        <h1>{{ object | to_verbose_name }}</h1>
         <h2>{{ object.name }}</h2>
     </div>
     <form method="post" class="update-form food-category">
