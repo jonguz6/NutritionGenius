@@ -9,8 +9,8 @@ class Profile(models.Model):
                                 on_delete=models.CASCADE,
                                 related_name="profile",
                                 primary_key=True)
-    weight = models.FloatField(blank=True, null=True)
-    height = models.IntegerField(blank=True, null=True)
+    weight = models.FloatField()
+    height = models.IntegerField()
 
     def __str__(self):
         if self.user.first_name != "" or self.user.last_name != "":
