@@ -1,8 +1,10 @@
-{% extends "book_base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-    <div class="content flex column">
-        <p>Logged out!</p>
+    <div class="content-fluid text-center">
+        <div class="col-md-10">
+            <p>Logged out!</p>
         <a href="{% url 'login' %}">Click here to login again.</a>
+        </div>
     </div>
 {% endblock %}
