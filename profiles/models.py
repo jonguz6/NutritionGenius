@@ -30,9 +30,6 @@ class FoodItem(models.Model):
     def protein(self):
         return self.ingredient.protein * self.quantity
 
-    class Meta:
-        unique_together = (('ingredient', "quantity"),)
-
     def __str__(self):
         return f"{self.ingredient.__str__()} q:{self.quantity}"
 
