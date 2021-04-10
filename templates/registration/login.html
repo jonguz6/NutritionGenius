@@ -1,33 +1,45 @@
-{% extends 'book_base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-    <div class="content flex column">
+    <div class="content-fluid text-center welcome padding">
         {% if form.errors %}
-            <p>Your username and password didn't match. Please try again.</p>
+            <div class="col-md6">
+                <div class="row">
+                    <p>Your username and password didn't match. Please try again.</p>
+                </div>
+            </div>
         {% endif %}
         {% if next %}
-            {% if user.is_authenticated %}
-                <p>Your account doesn't have access to this page. To proceed,
-                    please login with an account that has access.</p>
-            {% else %}
-                <p>Please login to see this page.</p>
-            {% endif %}
+            <div class="col-md6">
+                {% if user.is_authenticated %}
+                    <div class="row">
+                        <p>Your account doesn't have access to this page. To proceed,
+                            please login with an account that has access.</p>
+                    </div>
+                {% else %}
+                    <div class="row">
+                        <p>Please login to see this page.</p>
+                    </div>
+                {% endif %}
+            </div>
         {% endif %}
-        <form method="post" action="{% url 'login' %}">
-            {% csrf_token %}
-            <table>
-                <tr>
-                    <td>{{ form.username.label_tag }}</td>
-                    <td>{{ form.username }}</td>
-                </tr>
-                <tr>
-                    <td>{{ form.password.label_tag }}</td>
-                    <td>{{ form.password }}</td>
-                </tr>
-            </table>
-            <input type="submit" value="Login" class="button button-create"/>
-            <input type="hidden" name="next" value="{{ next }}"/>
-        </form>
+        <div class="welcome padding content-fluid">
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="row">
+                    {{ form.username.label_tag }} {{ form.username }}
+                </div>
+                <div class="row padding">
+                    {{ form.password.label_tag }}{{ form.password }}
+                </div>
+                <div class="text-center padding">
+                    <input type="submit" value="Login" class="button button-create"/>
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                </div>
+            </form>
+            <div class="row">
+                <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+            </div>
+        </div>
 
-        <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
     </div>
 {% endblock %}
