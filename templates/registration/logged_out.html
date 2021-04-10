@@ -1,0 +1,8 @@
+{% extends "book_base.html" %}
+
+{% block content %}
+    <div class="content flex column">
+        <p>Logged out!</p>
+        <a href="{% url 'login' %}">Click here to login again.</a>
+    </div>
+{% endblock %}
