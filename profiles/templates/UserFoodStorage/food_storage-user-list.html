@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load project_tags %} }}
+{% block title %}
+    <title>{{ view | to_model_verbose_name }} List</title>
+{% endblock %}
+{% block content %}
+    <div class="object-list food-item">
+        <ul>
+            {% for object in object_list %}
+                <li>
+                    <a href="{% url 'profiles:food_storage-detail' pk=object.pk %}">
+                        {{ object.food }}
+                    </a>
+                    <p>{{ object.date }}</p>
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="buttons food-item">
+        <input type="button"
+               class="button button-create"
+               value="Create New"
+               onclick="location.href='{% url 'profiles:food_storage-create'%}'">
+    </div>
+{% endblock %}

@@ -44,6 +44,9 @@
                class="button button-update"
                value="Add new food"
                onclick="location.href=
-                       '{% url 'profiles:food_storage-w-prof-create' prof_id=object.pk %}'">
+                       '{% url 'profiles:profile-form' pk=object.pk %}'">
+        <input type="button"
+               value="View Food List"
+               onclick="location.href='{% url 'profiles:food_storage-of-user-list' prof_id=object.pk %}'">
     </div>
 {% endblock %}

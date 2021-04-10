@@ -47,6 +47,9 @@ urlpatterns = [
     path('food_storage-list/',
          views.UserFoodStorageListView.as_view(),
          name="food_storage-list"),
+    path('food_storage-list/prof/<prof_id>',
+         views.FoodStorageForUserListView.as_view(),
+         name="food_storage-of-user-list"),
     path('food_storage-detail/<pk>/',
          views.UserFoodStorageDetailView.as_view(),
          name="food_storage-detail"),
@@ -56,4 +59,7 @@ urlpatterns = [
     path('food_storage-delete/<pk>/',
          views.UserFoodStorageDeleteView.as_view(),
          name="food_storage-delete"),
+    path('profile-form/<pk>',
+         views.user_food_storage_create_view,
+         name="profile-form"),
 ]

@@ -1,4 +1,6 @@
 import django.views.generic as views
+from django.db import IntegrityError
+from django.forms import modelformset_factory, inlineformset_factory
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
@@ -40,7 +42,7 @@ class FoodItemCreateView(views.CreateView):
     form_class = forms.FoodItemForm
     template_name = "FoodItem/food_item-create.html"
     success_url = reverse_lazy('profiles:food_item-list')
-    
+
 
 class FoodItemListView(views.ListView):
     model = models.FoodItem
@@ -92,6 +94,15 @@ class UserFoodStorageListView(views.ListView):
     template_name = "UserFoodStorage/food_storage-list.html"
 
 
+class FoodStorageForUserListView(views.ListView):
+    model = models.UserFoodStorage
+    template_name = "UserFoodStorage/food_storage-user-list.html"
+
+    def get_queryset(self):
+        pk = self.kwargs.get('prof_id')
+        return models.UserFoodStorage.objects.filter(user=pk)
+
+
 class UserFoodStorageDetailView(views.DetailView):
     model = models.UserFoodStorage
     template_name = "UserFoodStorage/food_storage-detail.html"
@@ -108,6 +119,35 @@ class UserFoodStorageDeleteView(views.DeleteView):
     model = models.UserFoodStorage
     template_name = "UserFoodStorage/food_storage-delete.html"
     success_url = reverse_lazy('profiles:food_storage-list')
+
+
+def user_food_storage_create_view(request, pk):
+    food_storage_form_set2 = modelformset_factory(models.FoodItem, fields=('ingredient', 'quantity'), extra=5)
+    profile = models.Profile.objects.get(user=pk)
+    formset2 = food_storage_form_set2(queryset=models.FoodItem.objects.none())
+    context = {'formset1': formset2, 'pk': pk}
+    if request.method == "POST":
+        formset = food_storage_form_set2(request.POST)
+        if formset.is_valid():
+            for f in formset:
+                form_data = f.cleaned_data
+                item_ingredient = form_data.get('ingredient')
+                item_quantity = form_data.get('quantity')
+                try:
+                    item = models.FoodItem.objects.create(ingredient=item_ingredient, quantity=item_quantity)
+                except IntegrityError:
+                    pass
+                else:
+                    item.save()
+                    try:
+                        storage = models.UserFoodStorage.objects.create(user=profile, food=item)
+                    except IntegrityError:
+                        pass
+                    else:
+                        storage.save()
+    return render(
+        request, "profile-form.html", context
+    )
 
 
 def index(request):
