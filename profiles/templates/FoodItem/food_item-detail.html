@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load project_tags %}
+{% block title %}
+    <title>{{ object.ingredient }} Detail View</title>
+{% endblock %}
+{% block content %}
+    <div class="titles">
+        <h1>{{ object | to_verbose_name | capfirst }}</h1>
+        <h2>{{ object.ingredient }}</h2>
+    </div>
+    <div class="details">
+        <p>Quantity {{ object.quantity }}</p>
+    </div>
+    <div class="buttons food-item">
+        <input type="submit"
+               class="button button-update"
+               value="Update"
+               onclick="location.href=
+                       '{% url 'profiles:food_item-update' pk=object.pk %}'">
+        <input type="submit"
+               class="button button-delete"
+               value="Delete"
+               onclick="location.href=
+                       '{% url 'profiles:food_item-delete' pk=object.pk %}'">
+    </div>
+{% endblock %}
