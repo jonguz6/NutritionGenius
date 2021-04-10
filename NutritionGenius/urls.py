@@ -20,6 +20,7 @@ from NutritionGenius import views
 
 urlpatterns = [
     path('', views.index, name="index"),
+    path('about/', views.about, name="about"),
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
     path('food-storage/', include('food_storage.urls')),
