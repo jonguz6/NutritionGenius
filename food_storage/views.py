@@ -41,6 +41,14 @@ class FoodIngredientCreateView(views.CreateView):
     template_name = "FoodIngredient/ingredient-create.html"
     success_url = reverse_lazy('food_storage:ingredient-list')
 
+    def get_form_kwargs(self):
+        form_kwargs = super().get_form_kwargs()
+        category = self.kwargs.get('cat_pk')
+        if category is None:
+            return form_kwargs
+        form_kwargs['initial'] = {'category': models.FoodCategory.objects.get(id=category)}
+        return form_kwargs
+
 
 class FoodIngredientListView(views.ListView):
     model = models.FoodIngredient

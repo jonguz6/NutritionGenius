@@ -17,15 +17,21 @@
         {% endif %}
     </div>
     <div class="buttons food-category">
-        <input type="submit"
+        <input type="button"
                class="button button-update"
                value="Update"
                onclick="location.href=
                        '{% url 'food_storage:category-update' pk=object.pk %}'">
-        <input type="submit"
+        <input type="button"
                class="button button-delete"
                value="Delete"
                onclick="location.href=
                        '{% url 'food_storage:category-delete' pk=object.pk %}'">
+    </div>
+    <div class="buttons">
+        <input type="button"
+               class="button button-create"
+               value="Create new ingredient"
+               onclick="location.href='{% url 'food_storage:ingredient-create-w-cat' cat_pk=object.pk %}'">
     </div>
 {% endblock %}

@@ -13,16 +13,37 @@
         <p>Weight: {{ object.weight }}</p>
         <p>Height: {{ object.height }}</p>
     </div>
+    <div class="details">
+        {% if object.calorie_goal is str %}
+            <p>Calories today: {{ object.calories_today }}</p>
+            <p>{{ object.calories_left_in_goal }}</p>
+        {% else %}
+            <p>Calories today: {{ object.calories_today }} / {{ object.calorie_goal }}</p>
+            <p>Calories left in goal: {{ object.calories_left_in_goal }}</p>
+        {% endif %}
+    </div>
+    <div class="detail">
+        <p>Carbs today: {{ object.carbs_today }}</p>
+        <p>Fats today: {{ object.fats_today }}</p>
+        <p>Protein today: {{ object.protein_today }}</p>
+    </div>
     <div class="buttons profile">
-        <input type="submit"
+        <input type="button"
                class="button button-update"
                value="Update"
                onclick="location.href=
                        '{% url 'profiles:profile-update' pk=object.pk %}'">
-        <input type="submit"
+        <input type="button"
                class="button button-delete"
                value="Delete"
                onclick="location.href=
                        '{% url 'profiles:profile-delete' pk=object.pk %}'">
+    </div>
+    <div class="buttons">
+        <input type="button"
+               class="button button-update"
+               value="Add new food"
+               onclick="location.href=
+                       '{% url 'profiles:food_storage-w-prof-create' prof_id=object.pk %}'">
     </div>
 {% endblock %}
