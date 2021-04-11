@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load project_tags %}
+{% block content %}
+    <div class="titles">
+        <h1>{{ object | to_verbose_name }}</h1>
+        <h2>{{ object.name }}</h2>
+    </div>
+    <form method="post" class="update-form food-category">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="buttons food-category">
+            <input type="submit" class="button button-update" value="Update">
+        </div>
+    </form>
+{% endblock %}

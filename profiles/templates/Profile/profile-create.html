@@ -1,0 +1,14 @@
+{% extends "common/common-create.html" %}
+{% load project_tags %} }}
+{% block title %}
+    <title>Create {{ view | to_model_verbose_name }}</title>
+{% endblock %}
+{% block content %}
+    <form method="post" class="create-form profiles">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="buttons profiles">
+            <input type="submit" class="button button-create" value="Create">
+        </div>
+    </form>
+{% endblock %}

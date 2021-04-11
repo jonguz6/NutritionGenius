@@ -3,5 +3,14 @@
     <title>Main Index</title>
 {% endblock %}
 {% block content %}
-    <div>Index Placeholder</div>
+    <div class="index main-index">
+        <ul>
+            <li>
+                <a href="{% url 'food_storage:index' %}">Food Storage</a>
+            </li>
+            <li>
+                <a href="{% url 'profiles:index' %}">Profiles</a>
+            </li>
+        </ul>
+    </div>
 {% endblock %}

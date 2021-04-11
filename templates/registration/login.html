@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="content-fluid text-center welcome padding">
+        {% if form.errors %}
+            <div class="col-md6">
+                <div class="row">
+                    <p>Your username and password didn't match. Please try again.</p>
+                </div>
+            </div>
+        {% endif %}
+        {% if next %}
+            <div class="col-md6">
+                {% if user.is_authenticated %}
+                    <div class="row">
+                        <p>Your account doesn't have access to this page. To proceed,
+                            please login with an account that has access.</p>
+                    </div>
+                {% else %}
+                    <div class="row">
+                        <p>Please login to see this page.</p>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        <div class="welcome padding content-fluid">
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="row">
+                    {{ form.username.label_tag }} {{ form.username }}
+                </div>
+                <div class="row padding">
+                    {{ form.password.label_tag }}{{ form.password }}
+                </div>
+                <div class="text-center padding">
+                    <input type="submit" value="Login" class="button button-create"/>
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                </div>
+            </form>
+            <div class="row">
+                <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="content-fluid text-center">
+        <div class="col-md-10">
+            <p>Logged out!</p>
+        <a href="{% url 'login' %}">Click here to login again.</a>
+        </div>
+    </div>
+{% endblock %}

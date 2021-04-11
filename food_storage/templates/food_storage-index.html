@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Food Storage Index</title>
+{% endblock %}
+{% block content %}
+    <ul class="index-list">
+        <li>
+            <a href="{% url 'food_storage:category-list' %}"
+               class="index-link">
+                Food Categories
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'food_storage:ingredient-list' %}"
+               class="index-link">
+                Ingredients
+            </a>
+        </li>
+    </ul>
+{% endblock %}

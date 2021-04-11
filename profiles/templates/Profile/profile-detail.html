@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load project_tags %}
+{% block title %}
+    <title>{{ object.name }} Detail View</title>
+{% endblock %}
+{% block content %}
+    <div class="titles">
+        <h1>{{ object | to_verbose_name | capfirst }}</h1>
+        <h2>username: {{ object.user.username }}</h2>
+    </div>
+    <div class="details">
+        <p>Name: {{ object.user.first_name }} {{ object.user.last_name }}</p>
+        <p>Weight: {{ object.weight }}</p>
+        <p>Height: {{ object.height }}</p>
+    </div>
+    <div class="details">
+        {% if object.calorie_goal is str %}
+            <p>Calories today: {{ object.calories_today }}</p>
+            <p>{{ object.calories_left_in_goal }}</p>
+        {% else %}
+            <p>Calories today: {{ object.calories_today }} / {{ object.calorie_goal }}</p>
+            {% with object.calories_left_in_goal as calories_left %}
+                {% if calories_left >= 0 %}
+                    <p>Calories left in goal: {{ calories_left | floatformat:-1 }}</p>
+                {% else %}
+                    <p>Calories over goal: {{ calories_left | abs | floatformat:-1 }}</p>
+                {% endif %}
+            {% endwith %}
+
+        {% endif %}
+    </div>
+    <div class="detail">
+        <p>Carbs today: {{ object.carbs_today |  floatformat:-1 }}</p>
+        <p>Fats today: {{ object.fats_today | floatformat:-1 }}</p>
+        <p>Protein today: {{ object.protein_today |floatformat:-1 }}</p>
+    </div>
+    <div class="buttons profile">
+        <input type="button"
+               class="button button-update"
+               value="Update"
+               onclick="location.href=
+                       '{% url 'profiles:profile-update' pk=object.pk %}'">
+        <input type="button"
+               class="button button-delete"
+               value="Delete"
+               onclick="location.href=
+                       '{% url 'profiles:profile-delete' pk=object.pk %}'">
+    </div>
+    <div class="buttons">
+        <input type="button"
+               value="View Food List"
+               onclick="location.href='{% url 'profiles:food_storage-of-user-list' prof_id=object.pk %}'">
+    </div>
+{% endblock %}
