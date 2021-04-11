@@ -21,9 +21,9 @@
             <p>Calories today: {{ object.calories_today }} / {{ object.calorie_goal }}</p>
             {% with object.calories_left_in_goal as calories_left %}
                 {% if calories_left >= 0 %}
-                    <p>Calories left in goal: {{ calories_left | floatformat }}</p>
+                    <p>Calories left in goal: {{ calories_left | floatformat:-1 }}</p>
                 {% else %}
-                    <p>Calories over goal: {{ calories_left | abs | floatformat }}</p>
+                    <p>Calories over goal: {{ calories_left | abs | floatformat:-1 }}</p>
                 {% endif %}
             {% endwith %}
 
@@ -31,8 +31,8 @@
     </div>
     <div class="detail">
         <p>Carbs today: {{ object.carbs_today |  floatformat:-1 }}</p>
-        <p>Fats today: {{ object.fats_today | floatformat }}</p>
-        <p>Protein today: {{ object.protein_today |floatformat }}</p>
+        <p>Fats today: {{ object.fats_today | floatformat:-1 }}</p>
+        <p>Protein today: {{ object.protein_today |floatformat:-1 }}</p>
     </div>
     <div class="buttons profile">
         <input type="button"
