@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load project_tags %} }}
+{% block title %}
+    <title>Update {{ view | to_model_verbose_name }}</title>
+{% endblock %}
+{% block content %}
+    <div class="titles">
+        <h2>{{ object.name }}</h2>
+    </div>
+    <form method="post" class="update-form profile">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="buttons profile">
+            <input type="submit" class="button button-update" value="Update">
+        </div>
+    </form>
+{% endblock %}

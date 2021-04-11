@@ -1,15 +1,13 @@
 {% extends "base.html" %}
 {% load project_tags %}
 {% block title %}
-    <title>{{ object.name }} Detail View</title>
+    <title>{{ request.user.profile }} - Profile</title>
 {% endblock %}
 {% block content %}
     <div class="titles">
-        <h1>{{ object | to_verbose_name | capfirst }}</h1>
-        <h2>username: {{ object.user.username }}</h2>
+        <h1>{{ object.user.first_name }} {{ object.user.last_name }}</h1>
     </div>
     <div class="details">
-        <p>Name: {{ object.user.first_name }} {{ object.user.last_name }}</p>
         <p>Weight: {{ object.weight }}</p>
         <p>Height: {{ object.height }}</p>
     </div>
@@ -26,7 +24,6 @@
                     <p>Calories over goal: {{ calories_left | abs | floatformat:-1 }}</p>
                 {% endif %}
             {% endwith %}
-
         {% endif %}
     </div>
     <div class="detail">
@@ -34,21 +31,31 @@
         <p>Fats today: {{ object.fats_today | floatformat:-1 }}</p>
         <p>Protein today: {{ object.protein_today |floatformat:-1 }}</p>
     </div>
-    <div class="buttons profile">
+    <div class="buttons">
         <input type="button"
                class="button button-update"
-               value="Update"
+               value="Add new food"
                onclick="location.href=
-                       '{% url 'profiles:profile-update' pk=object.pk %}'">
-        <input type="button"
-               class="button button-delete"
-               value="Delete"
-               onclick="location.href=
-                       '{% url 'profiles:profile-delete' pk=object.pk %}'">
+                       '{% url 'profiles:user-form' %}'">
     </div>
     <div class="buttons">
         <input type="button"
-               value="View Food List"
-               onclick="location.href='{% url 'profiles:food_storage-of-user-list' prof_id=object.pk %}'">
+               value="View Today's Food"
+               onclick="location.href='{% url 'profiles:user-today-food_storage' %}'">
+        <input type="button"
+               value="View All Foods"
+               onclick="location.href='{% url 'profiles:user-food_storage' %}'">
+    </div>
+    <div class="buttons profile">
+    <input type="button"
+               class="button button-update"
+               value="Update profile"
+               onclick="location.href=
+                       '{% url 'profiles:user-update' %}'">
+        <input type="button"
+               class="button button-delete"
+               value="Delete profile"
+               onclick="location.href=
+                       '{% url 'profiles:user-delete' %}'">
     </div>
 {% endblock %}

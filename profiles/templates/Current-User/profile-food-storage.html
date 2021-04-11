@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load project_tags %} }}
+{% block title %}
+    <title>Your food list</title>
+{% endblock %}
+{% block content %}
+    <div class="object-list food-item">
+        <ul>
+            {% for object in object_list %}
+                <li>
+                    <a href="{% url 'profiles:user-food-detail' pk=object.pk %}">
+                        {{ object.food.ingredient }}: {{ object.food.quantity }}
+                    </a>
+                    <p>{{ object.date }}</p>
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="buttons food-item">
+        <input type="button"
+               class="button button-create"
+               value="Create New"
+               onclick="location.href='{% url 'profiles:user-form'%}'">
+        <input type="button"
+               class="button button-create"
+               value="Back"
+               onclick="location.href='{% url 'profiles:user-profile'%}'">
+    </div>
+{% endblock %}

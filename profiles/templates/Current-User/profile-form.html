@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-    <title>Profile Index</title>
+    <title>Add new food for today</title>
 {% endblock %}
 {% block content %}
     <div class="form">
@@ -14,6 +14,9 @@
         </form>
     </div>
     <div class="buttons">
-    <button type="button" onclick="location.href='{% url 'profiles:profile-detail' pk=pk %}'" >Back to profile</button>
+        <button type="button"
+                onclick="location.href='{% url 'profiles:user-profile' %}'">
+            Back to profile
+        </button>
     </div>
 {% endblock %}

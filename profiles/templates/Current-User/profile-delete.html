@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load project_tags %}
+{% block title %}
+    <title>Delete {{ view | to_model_verbose_name }}</title>
+{% endblock %}
+{% block content %}
+    <div class="titles">
+        <h1>Do you want to delete your {{ object | to_verbose_name }}?</h1>
+        <h2>{{ object }}</h2>
+    </div>
+    <form method="post" class="delete-form profile">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="buttons profile">
+            <input type="submit" class="button button-delete" value="Confirm">
+        </div>
+    </form>
+{% endblock %}
