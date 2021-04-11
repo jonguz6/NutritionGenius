@@ -31,7 +31,7 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a href="#" class="nav-link">Profile</a>
+                    <a href="{% url 'profiles:user-profile' %}" class="nav-link">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'food_storage:index' %}" class="nav-link">Food Storage</a>
@@ -51,10 +51,16 @@
     </div>
 </nav>
 <main>
-    <div class="content">
-        {% block content %}
-        {% endblock %}
+    <div class="content-fluid messages">
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
     </div>
+
+    {% block content %}
+    {% endblock %}
 </main>
 <footer>
     <div class="container-fluid padding">
