@@ -19,13 +19,20 @@
             <p>{{ object.calories_left_in_goal }}</p>
         {% else %}
             <p>Calories today: {{ object.calories_today }} / {{ object.calorie_goal }}</p>
-            <p>Calories left in goal: {{ object.calories_left_in_goal }}</p>
+            {% with object.calories_left_in_goal as calories_left %}
+                {% if calories_left >= 0 %}
+                    <p>Calories left in goal: {{ calories_left | floatformat }}</p>
+                {% else %}
+                    <p>Calories over goal: {{ calories_left | abs | floatformat }}</p>
+                {% endif %}
+            {% endwith %}
+
         {% endif %}
     </div>
     <div class="detail">
-        <p>Carbs today: {{ object.carbs_today }}</p>
-        <p>Fats today: {{ object.fats_today }}</p>
-        <p>Protein today: {{ object.protein_today }}</p>
+        <p>Carbs today: {{ object.carbs_today |  floatformat:-1 }}</p>
+        <p>Fats today: {{ object.fats_today | floatformat }}</p>
+        <p>Protein today: {{ object.protein_today |floatformat }}</p>
     </div>
     <div class="buttons profile">
         <input type="button"
@@ -44,7 +51,7 @@
                class="button button-update"
                value="Add new food"
                onclick="location.href=
-                       '{% url 'profiles:profile-form' pk=object.pk %}'">
+                       '{% url 'profiles:user-form' pk=object.pk %}'">
         <input type="button"
                value="View Food List"
                onclick="location.href='{% url 'profiles:food_storage-of-user-list' prof_id=object.pk %}'">
