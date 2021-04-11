@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'profiles',
-    'food_storage',
+    'profiles.apps.ProfilesConfig',
+    'food_storage.apps.FoodStorageConfig',
 ]
 
 MIDDLEWARE = [
