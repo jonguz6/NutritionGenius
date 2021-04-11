@@ -25,15 +25,18 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
     <div class="container-fluid">
         <a href="{% url 'index' %}" class="navbar-brand">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-tem active">
+                <li class="nav-item active">
                     <a href="#" class="nav-link">Profile</a>
                 </li>
-                <li class="nav-tem">
+                <li class="nav-item">
                     <a href="{% url 'food_storage:index' %}" class="nav-link">Food Storage</a>
                 </li>
-                <li class="nav-tem">
+                <li class="nav-item">
                     <a href="{% url 'profiles:index' %}" class="nav-link">Profiles</a>
                 </li>
                 <li class="nav-item">
