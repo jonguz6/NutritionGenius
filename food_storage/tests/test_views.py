@@ -135,7 +135,6 @@ class FoodIngredientViewTest(TransactionTestCase):
                                                 'protein': 3,
                                                 'calories': 4,
                                                 'quantity': 1})
-        print(response_post.content)
         self.assertEqual(response_post.status_code, 302)
 
         self.assertTrue(FoodIngredient.objects.get(name='strawberry'))
