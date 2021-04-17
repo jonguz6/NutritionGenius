@@ -44,7 +44,7 @@ class FoodIngredientModelTestCase(TransactionTestCase):
                                                     carbohydrates=1.1,
                                                     fats=2.2,
                                                     protein=3.3,
-                                                    calories=4.4)
+                                                    calories=4)
 
     def test_ingredient_is_not_created_with_only_name(self):
         self.assertRaises(IntegrityError, FoodIngredient.objects.create, name='Carrot')
@@ -55,13 +55,13 @@ class FoodIngredientModelTestCase(TransactionTestCase):
                                                     carbohydrates=1.1,
                                                     fats=2.2,
                                                     protein=3.3,
-                                                    calories=4.4)
+                                                    calories=4)
         self.assertEqual(self.carrot.name, 'Carrot')
         self.assertEqual(self.carrot.food_group, 'v')
         self.assertEqual(self.carrot.carbohydrates, 1.1)
         self.assertEqual(self.carrot.fats, 2.2)
         self.assertEqual(self.carrot.protein, 3.3)
-        self.assertEqual(self.carrot.calories, 4.4)
+        self.assertEqual(self.carrot.calories, 4)
 
     def test_food_group_not_in_choices(self):
         self.potato.food_group = 'a'
@@ -74,7 +74,7 @@ class FoodIngredientModelTestCase(TransactionTestCase):
                           carbohydrates=1.1,
                           fats=2.2,
                           protein=3.3,
-                          calories=4.4)
+                          calories=4)
 
     def test_category_is_correctly_assigned(self):
         self.potato.category = self.vegetables
