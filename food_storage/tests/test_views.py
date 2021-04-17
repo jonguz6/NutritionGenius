@@ -4,7 +4,7 @@ from django.urls import reverse
 from food_storage.models import FoodCategory, FoodIngredient
 from food_storage.views import FoodCategoryCreateView, FoodCategoryListView, FoodCategoryUpdateView, \
     FoodCategoryDeleteView, FoodIngredientCreateView, FoodIngredientListView, FoodIngredientUpdateView, \
-    FoodIngredientDeleteView
+    FoodIngredientDeleteView, index
 
 
 def create_food_category(name):
@@ -17,6 +17,17 @@ def create_fruit(name):
                                          category=fruits[0], carbohydrates=1,
                                          fats=2, protein=3,
                                          calories=4, quantity=1)
+
+
+class IndexViewTest(TransactionTestCase):
+    def test_index_view(self):
+        view = reverse('food_storage:index')
+        response_get = self.client.get(view)
+        self.assertEqual(response_get.status_code, 200)
+        self.assertTemplateUsed(response_get, "food_storage-index.html")
+        self.assertEqual(response_get.resolver_match.func, index)
+        self.assertContains(response_get, 'Food Categories')
+        self.assertContains(response_get, 'Ingredients')
 
 
 class FoodCategoryViewTest(TransactionTestCase):
