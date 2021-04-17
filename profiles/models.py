@@ -39,12 +39,12 @@ class Profile(models.Model):
                                 on_delete=models.CASCADE,
                                 related_name="profile",
                                 primary_key=True)
-    weight = models.FloatField()
-    height = models.IntegerField()
+    weight = models.FloatField(null=True, blank=True)
+    height = models.IntegerField(null=True, blank=True)
     daily_food = models.ManyToManyField(FoodItem,
                                         through="UserFoodStorage",
                                         related_name="daily_food")
-    calorie_goal = models.IntegerField(null=True)
+    calorie_goal = models.IntegerField(null=True, blank=True)
 
     @property
     def daily_food_items(self):
