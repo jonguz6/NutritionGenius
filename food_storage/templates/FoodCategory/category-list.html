@@ -1,4 +1,8 @@
 {% extends "base.html" %}
+{% load project_tags %}
+{% block title %}
+    <title>{{ view | to_model_verbose_name }} List</title>
+{% endblock %}
 {% block content %}
     <div class="object-list food-category">
         <ul>

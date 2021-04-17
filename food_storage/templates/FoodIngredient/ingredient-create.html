@@ -1,4 +1,8 @@
-{% extends "common/common-create.html" %}
+{% extends "base.html" %}
+{% load project_tags %}
+{% block title %}
+    <title>Create {{ view | to_model_verbose_name }}</title>
+{% endblock %}
 {% block content %}
     <form method="post" class="create-form food-ingredient">
         {% csrf_token %}
