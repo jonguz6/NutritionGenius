@@ -54,6 +54,12 @@ class FoodIngredientListView(views.ListView):
     model = models.FoodIngredient
     template_name = "FoodIngredient/ingredient-list.html"
 
+    def get_queryset(self):
+        category = self.kwargs.get('cat_pk')
+        if category is None:
+            return super().get_queryset()
+        return models.FoodIngredient.objects.filter(category=category)
+
 
 class FoodIngredientDetailView(views.DetailView):
     model = models.FoodIngredient

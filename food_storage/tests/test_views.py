@@ -21,7 +21,7 @@ def create_fruit(name):
 
 class FoodCategoryViewTest(TransactionTestCase):
     def setUp(self) -> None:
-        self.fruits = create_food_category('fruits')
+        self.fruits = create_food_category('Fruits')
 
     def test_category_create(self):
         view = reverse('food_storage:category-create')
@@ -31,10 +31,10 @@ class FoodCategoryViewTest(TransactionTestCase):
         self.assertEqual(response_get.resolver_match.func.__name__,
                          FoodCategoryCreateView.as_view().__name__)
 
-        response_post = self.client.post(view, {'name': 'vegetables'})
+        response_post = self.client.post(view, {'name': 'Vegetables'})
         self.assertEqual(response_post.status_code, 302)
 
-        self.assertTrue(FoodCategory.objects.get(name="fruits"))
+        self.assertTrue(FoodCategory.objects.get(name="Vegetables"))
 
     def test_category_list(self):
         view = reverse('food_storage:category-list')
@@ -83,7 +83,7 @@ class FoodCategoryViewTest(TransactionTestCase):
 class FoodIngredientViewTest(TransactionTestCase):
 
     def setUp(self) -> None:
-        self.fruits = FoodCategory.objects.create(name='fruits')
+        self.fruits = FoodCategory.objects.create(name='Fruits')
 
     def test_ingredient_create(self):
         view = reverse('food_storage:ingredient-create')
@@ -103,8 +103,40 @@ class FoodIngredientViewTest(TransactionTestCase):
 
         self.assertTrue(FoodIngredient.objects.get(name="Pear"))
 
+    def test_ingredient_create_with_category_prefilled(self):
+        view = reverse('food_storage:ingredient-create-w-cat', args=[self.fruits.id])
+        response_get = self.client.get(view)
+        self.assertEqual(response_get.status_code, 200)
+        response_post = self.client.post(view, {'name': 'Pear',
+                                                'food_group': 'f',
+                                                'carbohydrates': 1,
+                                                'fats': 2,
+                                                'protein': 3,
+                                                'calories': 4,
+                                                'quantity': 1})
+        self.assertEqual(response_post.status_code, 302)
+        self.assertEqual(response_post.resolver_match.func.__name__,
+                         FoodIngredientCreateView.as_view().__name__)
+
+        self.assertTrue(FoodIngredient.objects.get(name="Pear"))
+
     def test_ingredient_list(self):
         view = reverse('food_storage:ingredient-list')
+        pear = create_fruit('Pear')
+        response = self.client.get(view)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'FoodIngredient/ingredient-list.html')
+
+        self.assertEqual(response.resolver_match.func.__name__,
+                         FoodIngredientListView.as_view().__name__)
+        self.assertQuerysetEqual(response.context.get('object_list'),
+                                 FoodIngredient.objects.all(),
+                                 transform=lambda x: x)
+
+        self.assertEqual(response.context.get('object_list').first(), pear)
+
+    def test_category_list_with_category_filter(self):
+        view = reverse('food_storage:ingredient-list-filter-cat', args=[self.fruits.id])
         pear = create_fruit('Pear')
         response = self.client.get(view)
         self.assertEqual(response.status_code, 200)
