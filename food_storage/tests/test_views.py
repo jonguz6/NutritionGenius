@@ -20,6 +20,8 @@ def create_fruit(name):
 
 
 class FoodCategoryViewTest(TransactionTestCase):
+    def setUp(self) -> None:
+        self.fruits = create_food_category('fruits')
 
     def test_category_create(self):
         view = reverse('food_storage:category-create')
@@ -29,14 +31,13 @@ class FoodCategoryViewTest(TransactionTestCase):
         self.assertEqual(response_get.resolver_match.func.__name__,
                          FoodCategoryCreateView.as_view().__name__)
 
-        response_post = self.client.post(view, {'name': 'fruits'})
+        response_post = self.client.post(view, {'name': 'vegetables'})
         self.assertEqual(response_post.status_code, 302)
 
         self.assertTrue(FoodCategory.objects.get(name="fruits"))
 
     def test_category_list(self):
         view = reverse('food_storage:category-list')
-        fruits = FoodCategory.objects.create(name="fruits")
         response = self.client.get(view)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'FoodCategory/category-list.html')
@@ -47,11 +48,10 @@ class FoodCategoryViewTest(TransactionTestCase):
                                  FoodCategory.objects.all(),
                                  transform=lambda x: x)
 
-        self.assertEqual(response.context.get('object_list').first(), fruits)
+        self.assertEqual(response.context.get('object_list').first(), self.fruits)
 
     def test_category_update(self):
-        FoodCategory.objects.create(name="fruits")
-        view = reverse('food_storage:category-update', args=[1])
+        view = reverse('food_storage:category-update', args=[self.fruits.id])
         response_get = self.client.get(view)
         self.assertEqual(response_get.status_code, 200)
         self.assertTemplateUsed(response_get, 'FoodCategory/category-update.html')
@@ -66,17 +66,16 @@ class FoodCategoryViewTest(TransactionTestCase):
         self.assertRaises(FoodCategory.DoesNotExist, FoodCategory.objects.get, name='fruits')
 
     def test_category_delete(self):
-        FoodCategory.objects.create(name='fruits')
-        view = reverse('food_storage:category-delete', args=[1])
+        view = reverse('food_storage:category-delete', args=[self.fruits.id])
         response_get = self.client.get(view)
         self.assertEqual(response_get.status_code, 200)
         self.assertTemplateUsed(response_get, 'FoodCategory/category-delete.html')
 
-        self.assertEqual(response_get.resolver_match.func.__name__,
-                         FoodCategoryDeleteView.as_view().__name__)
-
         response_post = self.client.delete(view)
         self.assertEqual(response_post.status_code, 302)
+
+        self.assertEqual(response_post.resolver_match.func.__name__,
+                         FoodCategoryDeleteView.as_view().__name__)
 
         self.assertRaises(FoodCategory.DoesNotExist, FoodCategory.objects.get, name='fruits')
 
@@ -84,10 +83,12 @@ class FoodCategoryViewTest(TransactionTestCase):
 class FoodIngredientViewTest(TransactionTestCase):
 
     def setUp(self) -> None:
-        self. fruits = FoodCategory.objects.create(name='fruits')
+        self.fruits = FoodCategory.objects.create(name='fruits')
 
     def test_ingredient_create(self):
         view = reverse('food_storage:ingredient-create')
+        response_get = self.client.get(view)
+        self.assertEqual(response_get.status_code, 200)
         response_post = self.client.post(view, {'name': 'Pear',
                                                 'food_group': 'f',
                                                 'category': self.fruits.id,
@@ -140,7 +141,7 @@ class FoodIngredientViewTest(TransactionTestCase):
         self.assertTrue(FoodIngredient.objects.get(name='strawberry'))
         self.assertRaises(FoodIngredient.DoesNotExist, FoodIngredient.objects.get, name='pear')
 
-    def test_category_delete(self):
+    def test_ingredient_delete(self):
         pear = create_fruit('pear')
         view = reverse('food_storage:ingredient-delete', args=[pear.id])
         response_get = self.client.get(view)
