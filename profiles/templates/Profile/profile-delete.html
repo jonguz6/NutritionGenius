@@ -5,8 +5,9 @@
 {% endblock %}
 {% block content %}
     <div class="titles">
-        <h1>{{ object | to_verbose_name }}</h1>
+        <h1>{{ object | to_verbose_name | capfirst }}</h1>
         <h2>{{ object.name }}</h2>
+        <p>Deleting your profile will also delete your account. Are you sure you want to delete it?</p>
     </div>
     <form method="post" class="delete-form profile">
         {% csrf_token %}
