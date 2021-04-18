@@ -219,7 +219,7 @@ class FoodStorageForCurrentUserDetailView(LoginRequiredMixin, views.DetailView):
 class FoodStorageForCurrentUserUpdateView(LoginRequiredMixin, views.UpdateView):
     model = models.UserFoodStorage
     template_name = "Current-User/profile-food-update.html"
-    form = forms.UserFoodStorageForm
+    form_class = forms.UserFoodStorageForm
 
     def get(self, request, *args, **kwargs):
         if check_user_has_access(self, request):
@@ -232,10 +232,10 @@ class FoodStorageForCurrentUserUpdateView(LoginRequiredMixin, views.UpdateView):
                             kwargs={'pk': self.object.id})
 
 
-class FoodStorageForCurrentUserDeleteView(LoginRequiredMixin, views.UpdateView):
+class FoodStorageForCurrentUserDeleteView(LoginRequiredMixin, views.DeleteView):
     model = models.UserFoodStorage
-    template_name = "Current-User/profile-food-update.html"
-    success_url = reverse_lazy('profiles:user-food_storage')
+    template_name = "Current-User/profile-food-delete.html"
+    success_url = reverse_lazy('profiles:user-today-food_storage')
 
     def get(self, request, *args, **kwargs):
         if check_user_has_access(self, request):
@@ -251,7 +251,7 @@ class FoodStorageForCurrentUserListView(LoginRequiredMixin, views.ListView):
     def get_queryset(self):
         user = self.request.user
         profile = models.Profile.objects.get(user=user)
-        return models.UserFoodStorage.objects.filter(user=profile)
+        return models.UserFoodStorage.objects.filter(user=profile).order_by('-date')
 
 
 class TodayFoodStorageForCurrentUserListView(LoginRequiredMixin, views.ListView):
@@ -262,7 +262,7 @@ class TodayFoodStorageForCurrentUserListView(LoginRequiredMixin, views.ListView)
         user = self.request.user
         today = date.today()
         profile = models.Profile.objects.get(user=user)
-        return models.UserFoodStorage.objects.filter(user=profile, date=today)
+        return models.UserFoodStorage.objects.filter(user=profile, date=today).order_by('-date')
 
 
 @login_required(login_url=reverse_lazy('login'))
