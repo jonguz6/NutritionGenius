@@ -44,11 +44,11 @@ class FoodItemModelTest(TransactionTestCase):
 class ProfileModelTest(TransactionTestCase):
 
     def setUp(self) -> None:
-        self.user_def = User.objects.create(username='setup',
-                                            password='password')
+        self.user_def = User.objects.create_user(username='setup',
+                                                 password='password')
 
     def test_profile_is_created_on_user_creation(self):
-        user = User.objects.create(username='test', password='password', )
+        user = User.objects.create_user(username='test', password='password', )
         self.assertTrue(user.profile)
 
     def test_profile_fields(self):
@@ -72,20 +72,20 @@ class ProfileModelTest(TransactionTestCase):
         carrot = FoodIngredient.objects.get(name='carrot')
         for item in profile.daily_food_items:
             self.assertEqual(item.food.ingredient, carrot)
-        self.assertEqual(profile.calories_today, carrot.calories*3)
-        self.assertEqual(profile.carbs_today, carrot.carbohydrates*3)
-        self.assertEqual(profile.fats_today, carrot.fats*3)
-        self.assertEqual(profile.protein_today, carrot.protein*3)
+        self.assertEqual(profile.calories_today, carrot.calories * 3)
+        self.assertEqual(profile.carbs_today, carrot.carbohydrates * 3)
+        self.assertEqual(profile.fats_today, carrot.fats * 3)
+        self.assertEqual(profile.protein_today, carrot.protein * 3)
         self.assertEqual(profile.calories_left_in_goal,
-                         profile.calorie_goal - (carrot.calories*3))
+                         profile.calorie_goal - (carrot.calories * 3))
         self.assertEqual(profile.__str__(),
                          f'username: {self.user_def.username}')
 
 
 class UserFoodStorageModelTest(TransactionTestCase):
     def setUp(self) -> None:
-        self.user_def = User.objects.create(username='setup',
-                                            password='password')
+        self.user_def = User.objects.create_user(username='setup',
+                                                 password='password')
         self.item = lambda name: create_food_item(name)
 
     def test_storage_create(self):

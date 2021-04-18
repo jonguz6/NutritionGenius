@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Permission, User
 from django.test import TestCase
 
 from django.test import TransactionTestCase
@@ -22,6 +23,14 @@ def create_fruit(name):
 
 
 class IndexViewTest(TestCase):
+    def setUp(self) -> None:
+        permissions = Permission.objects.filter(name__endswith='ingredient')
+        self.user_def = User.objects.create_user(username='setup')
+        self.user_def.set_password('password')
+        self.user_def.user_permissions.set(list(permissions))
+        self.user_def.save()
+        self.client.login(username='setup', password='password')
+
     def test_index_view(self):
         view = reverse('food_storage:index')
         response_get = self.client.get(view)
@@ -34,6 +43,12 @@ class IndexViewTest(TestCase):
 
 class FoodCategoryViewTest(TestCase):
     def setUp(self) -> None:
+        permissions = Permission.objects.filter(name__endswith='category')
+        self.user_def = User.objects.create_user(username='setup')
+        self.user_def.set_password('password')
+        self.user_def.user_permissions.set(list(permissions))
+        self.user_def.save()
+        self.client.login(username='setup', password='password')
         self.fruits = create_food_category('Fruits')
 
     def test_category_create(self):
@@ -96,6 +111,12 @@ class FoodCategoryViewTest(TestCase):
 class FoodIngredientViewTest(TestCase):
 
     def setUp(self) -> None:
+        permissions = Permission.objects.filter(name__endswith='ingredient')
+        self.user_def = User.objects.create_user(username='setup')
+        self.user_def.set_password('password')
+        self.user_def.user_permissions.set(list(permissions))
+        self.user_def.save()
+        self.client.login(username='setup', password='password')
         self.fruits = FoodCategory.objects.create(name='Fruits')
 
     def test_ingredient_create(self):

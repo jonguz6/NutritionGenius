@@ -1,6 +1,6 @@
 from datetime import date
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group, Permission
 from django.test import TestCase
 from django.urls import reverse
 
@@ -19,6 +19,14 @@ def create_storage(user, item):
 
 
 class IndexViewTest(TestCase):
+    def setUp(self) -> None:
+        permission = Permission.objects.get(name='Can view profile')
+        self.user_def = User.objects.create_user(username='setup')
+        self.user_def.set_password('password')
+        self.user_def.user_permissions.add(permission)
+        self.user_def.save()
+        self.client.login(username='setup', password='password')
+
     def test_index_view(self):
         view = reverse('profiles:index')
         response_get = self.client.get(view)
@@ -31,6 +39,12 @@ class IndexViewTest(TestCase):
 
 class FoodItemViewTest(TestCase):
     def setUp(self) -> None:
+        permissions = Permission.objects.filter(name__endswith='food item')
+        self.user_def = User.objects.create_user(username='setup')
+        self.user_def.set_password('password')
+        self.user_def.user_permissions.set(list(permissions))
+        self.user_def.save()
+        self.client.login(username='setup', password='password')
         self.carrot = create_vegetable('carrot')
         self.carrot_it = lambda: create_food_item('carrot')
         self.carrot_item = self.carrot_it()
@@ -84,7 +98,7 @@ class FoodItemViewTest(TestCase):
                           ingredient=self.carrot_item.ingredient,
                           quantity=1)
 
-    def test_category_delete(self):
+    def test_food_item_delete(self):
         view = reverse('profiles:food_item-delete', args=[self.carrot_item.id])
         response_get = self.client.get(view)
         self.assertEqual(response_get.status_code, 200)
@@ -96,15 +110,19 @@ class FoodItemViewTest(TestCase):
         self.assertEqual(response_post.resolver_match.func.__name__,
                          FoodItemDeleteView.as_view().__name__)
 
-        self.assertRaises(FoodCategory.DoesNotExist,
-                          FoodCategory.objects.get,
+        self.assertRaises(FoodItem.DoesNotExist,
+                          FoodItem.objects.get,
                           id=self.carrot_item.id)
 
 
 class ProfileViewTest(TestCase):
     def setUp(self) -> None:
-        self.user_def = User.objects.create(username='setup',
-                                            password='password')
+        permissions = Permission.objects.filter(name__endswith='profile')
+        self.user_def = User.objects.create_user(username='setup')
+        self.user_def.set_password('password')
+        self.user_def.user_permissions.set(list(permissions))
+        self.user_def.save()
+        self.client.login(username='setup', password='password')
 
     def test_profile_list(self):
         view = reverse('profiles:profile-list')
@@ -173,8 +191,12 @@ class ProfileViewTest(TestCase):
 
 class UserStorageViewTest(TestCase):
     def setUp(self) -> None:
-        self.user_def = User.objects.create(username='setup',
-                                            password='password')
+        permissions = Permission.objects.filter(name__endswith='user food storage')
+        self.user_def = User.objects.create_user(username='setup')
+        self.user_def.set_password('password')
+        self.user_def.user_permissions.set(list(permissions))
+        self.user_def.save()
+        self.client.login(username='setup', password='password')
         self.carrot_it = lambda: create_food_item('carrot')
         self.carrot_item = self.carrot_it()
 
@@ -260,7 +282,7 @@ class UserStorageViewTest(TestCase):
 
 class SelfProfileViewTest(TestCase):
     def setUp(self) -> None:
-        self.user_def = User.objects.create(username='setup')
+        self.user_def = User.objects.create_user(username='setup')
         self.user_def.set_password('password')
         self.user_def.save()
 
