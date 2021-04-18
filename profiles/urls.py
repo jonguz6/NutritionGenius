@@ -33,9 +33,9 @@ urlpatterns = [
          views.SelfProfileDeleteView.as_view(),
          name="user-delete"),
 
-    path('profile-create/',
-         views.ProfileCreateView.as_view(),
-         name="profile-create"),
+    # path('profile-create/',
+    #      views.ProfileCreateView.as_view(),
+    #      name="profile-create"),
     path('profile-list/',
          views.ProfileListView.as_view(),
          name="profile-list"),
