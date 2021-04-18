@@ -25,4 +25,8 @@ def abs_filter(value):
 
 @register.simple_tag
 def percent(value, maximum):
-    return (value / maximum) * 100
+    try:
+        result = (value / maximum) * 100
+    except ZeroDivisionError:
+        result = 0
+    return result
