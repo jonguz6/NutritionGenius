@@ -177,7 +177,9 @@ class ProfileViewTest(TestCase):
         self.assertEqual(response_get.status_code, 200)
         self.assertTemplateUsed(response_get, 'Profile/profile-delete.html')
         self.assertContains(response_get,
-                            "Deleting your profile will also delete your account. Are you sure you want to delete it?")
+                            "Deleting your profile will also delete your account.")
+        self.assertContains(response_get,
+                            "Are you sure you want to delete it?")
 
         self.assertEqual(response_get.resolver_match.func.__name__,
                          ProfileDeleteView.as_view().__name__)
@@ -303,15 +305,14 @@ class SelfProfileViewTest(TestCase):
 
         self.assertEqual(response_get.status_code, 200)
         self.assertTemplateUsed(response_get, "Current-User/profile-detail.html")
-
-        self.assertContains(response_get, f'Weight: {self.profile.weight}')
-        self.assertContains(response_get, f'Height: {self.profile.height}')
+        self.assertContains(response_get, f'{self.profile.weight} kg')
+        self.assertContains(response_get, f'{self.profile.height}')
         self.assertContains(response_get,
-                            f'Calories today: {self.profile.calories_today} / {self.profile.calorie_goal}')
-        self.assertContains(response_get, f'Calories left in goal: {round(self.profile.calories_left_in_goal)}')
-        self.assertContains(response_get, f'Carbs today: {round(self.profile.carbs_today, 1)}')
-        self.assertContains(response_get, f'Fats today: {round(self.profile.fats_today, 1)}')
-        self.assertContains(response_get, f'Protein today: {round(self.profile.protein_today, 1)}')
+                            f'Calories today: <strong>{self.profile.calories_today} / {self.profile.calorie_goal}</strong>')
+        self.assertContains(response_get, f'Calories left in goal: <strong>{round(self.profile.calories_left_in_goal)}</strong>')
+        self.assertContains(response_get, f'Carbs today: <strong>{round(self.profile.carbs_today, 1)}</strong>')
+        self.assertContains(response_get, f'Fats today: <strong>{round(self.profile.fats_today, 1)}</strong>')
+        self.assertContains(response_get, f'Protein today: <strong>{round(self.profile.protein_today, 1)}</strong>')
 
         self.assertEqual(response_get.resolver_match.func.__name__,
                          SelfProfileDetailView.as_view().__name__)
