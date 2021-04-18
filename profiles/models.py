@@ -85,6 +85,10 @@ class Profile(models.Model):
             return "You do not have a calorie goal!"
         return self.calorie_goal - self.calories_today
 
+    @property
+    def nutrition_today(self):
+        return self.carbs_today + self.fats_today + self.protein_today
+
     def __str__(self):
         if self.user.first_name != "" or self.user.last_name != "":
             return f"{self.user.first_name} {self.user.last_name}"
