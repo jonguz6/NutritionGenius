@@ -102,6 +102,15 @@ class UserFoodStorageCreateView(views.CreateView):
 
         return form_kwargs
 
+    def post(self, request, *args, **kwargs):
+        post = request.POST.copy()
+        if post.get('user') is None:
+            prof_id = self.kwargs.get('prof_id')
+            profile = models.Profile.objects.get(pk=prof_id)
+            post['user'] = profile.user
+        request.POST = post
+        return super().post(request, *args, **kwargs)
+
 
 class UserFoodStorageListView(views.ListView):
     model = models.UserFoodStorage
