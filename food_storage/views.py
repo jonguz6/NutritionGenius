@@ -49,10 +49,23 @@ class FoodIngredientCreateView(views.CreateView):
         form_kwargs['initial'] = {'category': models.FoodCategory.objects.get(id=category)}
         return form_kwargs
 
+    def post(self, request, *args, **kwargs):
+        post = request.POST.copy()
+        if post.get('category') is None:
+            post['category'] = self.kwargs.get('cat_pk')
+        request.POST = post
+        return super().post(request, *args, **kwargs)
+
 
 class FoodIngredientListView(views.ListView):
     model = models.FoodIngredient
     template_name = "FoodIngredient/ingredient-list.html"
+
+    def get_queryset(self):
+        category = self.kwargs.get('cat_pk')
+        if category is None:
+            return super().get_queryset()
+        return models.FoodIngredient.objects.filter(category=category)
 
 
 class FoodIngredientDetailView(views.DetailView):
