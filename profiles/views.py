@@ -42,7 +42,7 @@ class ProfileDetailView(PermissionRequiredMixin, views.DetailView):
 
 
 class ProfileUpdateView(PermissionRequiredMixin, views.UpdateView):
-    permission_required = ('profiles.update_profile', )
+    permission_required = ('profiles.change_profile', )
     model = models.Profile
     form_class = forms.ProfileForm
     template_name = "Profile/profile-update.html"
@@ -57,7 +57,7 @@ class ProfileDeleteView(PermissionRequiredMixin, views.DeleteView):
 
 
 class FoodItemCreateView(PermissionRequiredMixin, views.CreateView):
-    permission_required = ('profiles.add_food_item', )
+    permission_required = ('profiles.add_fooditem', )
     model = models.FoodItem
     form_class = forms.FoodItemForm
     template_name = "FoodItem/food_item-create.html"
@@ -65,19 +65,19 @@ class FoodItemCreateView(PermissionRequiredMixin, views.CreateView):
 
 
 class FoodItemListView(PermissionRequiredMixin, views.ListView):
-    permission_required = ('profiles.view_food_item', )
+    permission_required = ('profiles.view_fooditem', )
     model = models.FoodItem
     template_name = "FoodItem/food_item-list.html"
 
 
 class FoodItemDetailView(PermissionRequiredMixin, views.DetailView):
-    permission_required = ('profiles.view_food_item', )
+    permission_required = ('profiles.view_fooditem', )
     model = models.FoodItem
     template_name = "FoodItem/food_item-detail.html"
 
 
 class FoodItemUpdateView(PermissionRequiredMixin, views.UpdateView):
-    permission_required = ('profiles.update_food_item', )
+    permission_required = ('profiles.change_fooditem', )
     model = models.FoodItem
     form_class = forms.FoodItemForm
     template_name = "FoodItem/food_item-update.html"
@@ -85,14 +85,14 @@ class FoodItemUpdateView(PermissionRequiredMixin, views.UpdateView):
 
 
 class FoodItemDeleteView(PermissionRequiredMixin, views.DeleteView):
-    permission_required = ('profiles.delete_food_item', )
+    permission_required = ('profiles.delete_fooditem', )
     model = models.FoodItem
     template_name = "FoodItem/food_item-delete.html"
     success_url = reverse_lazy('profiles:food_item-list')
 
 
 class UserFoodStorageCreateView(PermissionRequiredMixin, views.CreateView):
-    permission_required = ('profiles.add_user_food_storage', )
+    permission_required = ('profiles.add_userfoodstorage', )
     model = models.UserFoodStorage
     form_class = forms.UserFoodStorageForm
     template_name = "UserFoodStorage/food_storage-create.html"
@@ -124,13 +124,13 @@ class UserFoodStorageCreateView(PermissionRequiredMixin, views.CreateView):
 
 
 class UserFoodStorageListView(PermissionRequiredMixin, views.ListView):
-    permission_required = ('profiles.add_user_food_storage', )
+    permission_required = ('profiles.add_userfoodstorage', )
     model = models.UserFoodStorage
     template_name = "UserFoodStorage/food_storage-list.html"
 
 
 class FoodStorageForUserListView(PermissionRequiredMixin, views.ListView):
-    permission_required = ('profiles.view_user_food_storage', )
+    permission_required = ('profiles.view_userfoodstorage', )
     model = models.UserFoodStorage
     template_name = "UserFoodStorage/food_storage-user-list.html"
 
@@ -140,7 +140,7 @@ class FoodStorageForUserListView(PermissionRequiredMixin, views.ListView):
 
 
 class FoodStorageForTodayListView(PermissionRequiredMixin, views.ListView):
-    permission_required = ('profiles.view_user_food_storage', )
+    permission_required = ('profiles.view_userfoodstorage', )
     model = models.UserFoodStorage
     template_name = "UserFoodStorage/food_storage-user-list.html"
 
@@ -151,13 +151,13 @@ class FoodStorageForTodayListView(PermissionRequiredMixin, views.ListView):
 
 
 class UserFoodStorageDetailView(PermissionRequiredMixin, views.DetailView):
-    permission_required = ('profiles.view_user_food_storage', )
+    permission_required = ('profiles.view_userfoodstorage', )
     model = models.UserFoodStorage
     template_name = "UserFoodStorage/food_storage-detail.html"
 
 
 class UserFoodStorageUpdateView(PermissionRequiredMixin, views.UpdateView):
-    permission_required = ('profiles.update_user_food_storage', )
+    permission_required = ('profiles.change_userfoodstorage', )
     model = models.UserFoodStorage
     form_class = forms.UserFoodStorageForm
     template_name = "UserFoodStorage/food_storage-update.html"
@@ -165,7 +165,7 @@ class UserFoodStorageUpdateView(PermissionRequiredMixin, views.UpdateView):
 
 
 class UserFoodStorageDeleteView(PermissionRequiredMixin, views.DeleteView):
-    permission_required = ('profiles.delete_user_food_storage', )
+    permission_required = ('profiles.delete_userfoodstorage', )
     model = models.UserFoodStorage
     template_name = "UserFoodStorage/food_storage-delete.html"
     success_url = reverse_lazy('profiles:food_storage-list')
