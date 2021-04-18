@@ -60,13 +60,25 @@
     </div>
 </nav>
 <main>
-    <div class="content-fluid messages">
-        <ul class="messages">
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    </div>
+    <!-- Messages -->
+    {% for message in messages %}
+        <div class="fixed-top alert alert-dismissible fade show
+        {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close"
+                    data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+    {% endfor %}
+    <!-- Form Errors -->
+    {% for error in form.errors %}
+        <div class="fixed-top alert alert-dismissible fade show alert-danger" role="alert">
+            {{ error }}
+            <button type="button" class="btn-close"
+                    data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+    {% endfor %}
 
     {% block content %}
     {% endblock %}

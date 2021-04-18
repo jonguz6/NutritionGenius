@@ -212,7 +212,7 @@ class FoodStorageForCurrentUserDetailView(LoginRequiredMixin, views.DetailView):
     def get(self, request, *args, **kwargs):
         if check_user_has_access(self, request):
             return super().get(request, *args, **kwargs)
-        messages.error(request, "You do not have permission to view this item!")
+        messages.error(request, "You do not have permission to view this item!", extra_tags='alert-danger')
         return redirect(request.META.get('HTTP_REFERER') or reverse_lazy('profiles:user-profile'))
 
 
@@ -224,7 +224,7 @@ class FoodStorageForCurrentUserUpdateView(LoginRequiredMixin, views.UpdateView):
     def get(self, request, *args, **kwargs):
         if check_user_has_access(self, request):
             return super().get(request, *args, **kwargs)
-        messages.error(request, "You do not have permission to view this item!")
+        messages.error(request, "You do not have permission to view this item!", extra_tags='alert-danger')
         return redirect(request.META.get('HTTP_REFERER') or reverse_lazy('profiles:user-profile'))
 
     def get_success_url(self):
@@ -240,7 +240,7 @@ class FoodStorageForCurrentUserDeleteView(LoginRequiredMixin, views.UpdateView):
     def get(self, request, *args, **kwargs):
         if check_user_has_access(self, request):
             return super().get(request, *args, **kwargs)
-        messages.error(request, "You do not have permission to view this item!")
+        messages.error(request, "You do not have permission to view this item!", extra_tags='alert-danger')
         return redirect(request.META.get('HTTP_REFERER') or reverse_lazy('profiles:user-profile'))
 
 
@@ -291,9 +291,9 @@ def user_food_storage_create_view(request):
                         pass
                     else:
                         storage.save()
-                        messages.success(request, "Your meal has been saved successfully!")
+                        messages.success(request, "Your meal has been saved successfully!", extra_tags='alert-success')
         else:
-            messages.error(request, "Save unsuccessful, make sure you entered a meal!")
+            messages.error(request, "Save unsuccessful, make sure you entered a meal!", extra_tags='alert-danger')
     return render(
         request, "Current-User/profile-form.html", context
     )
