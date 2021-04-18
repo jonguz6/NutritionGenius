@@ -1,5 +1,4 @@
 from django import template
-from django.template.defaultfilters import floatformat
 
 register = template.Library()
 
@@ -14,11 +13,16 @@ def to_verbose_plural_name(value):
     return value._meta.verbose_name_plural
 
 
-@register.filter
+@register.filter(is_safe=True)
 def to_model_verbose_name(value):
     return value.model._meta.verbose_name
 
 
-@register.filter(name='abs')
+@register.filter(name='abs', is_safe=True)
 def abs_filter(value):
     return abs(value)
+
+
+@register.simple_tag
+def percent(value, maximum):
+    return (value / maximum) * 100

@@ -1,17 +1,49 @@
 {% extends "base.html" %}
 {% load project_tags %} }}
 {% block title %}
-    <title>Update {{ view | to_model_verbose_name }}</title>
+    <title>Update {{ view | to_model_verbose_name | capfirst }}</title>
 {% endblock %}
 {% block content %}
-    <div class="titles">
-        <h2>{{ object.name }}</h2>
-    </div>
-    <form method="post" class="update-form profile">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <div class="buttons profile">
-            <input type="submit" class="button button-update" value="Update">
+    <div class="content text-center">
+        <div class="col-md-6 offset-md-3 mx-auto padding">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="row" class=" content-justify-right ">
+                            <div class="d-flex justify-content-end"><span
+                                    class="badge bg-primary">{{ form.weight.label }} (kg)</span>
+                            </div>
+                        </th>
+                        <td>
+                            <div class="d-flex justify-content-start">{{ form.weight }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class=" content-justify-right ">
+                            <div class="d-flex justify-content-end"><span
+                                    class="badge bg-primary">{{ form.height.label }} (cm)</span>
+                            </div>
+                        </th>
+                        <td>
+                            <div class="d-flex justify-content-start">{{ form.height }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class=" content-justify-right ">
+                            <div class="d-flex justify-content-end"><span
+                                    class="badge bg-primary">{{ form.calorie_goal.label }} (kcal)</span>
+                            </div>
+                        </th>
+                        <td>
+                            <div class="d-flex justify-content-start">{{ form.calorie_goal }}</div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" class="btn btn-primary" value="Update">
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 {% endblock %}

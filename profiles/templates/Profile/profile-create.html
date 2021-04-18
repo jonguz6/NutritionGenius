@@ -1,14 +1,21 @@
 {% extends "base.html" %}
 {% load project_tags %} }}
 {% block title %}
-    <title>Create {{ view | to_model_verbose_name }}</title>
+    <title>Create {{ view | to_model_verbose_name | capfirst }}</title>
 {% endblock %}
 {% block content %}
+    <div class="content text-center">
+    <div class="col-md-8 offset-md-2 padding d-flex justify-content-center">
     <form method="post" class="create-form profiles">
         {% csrf_token %}
-        {{ form.as_p }}
+        <p class="lead pt-3">{{ form.weight.label }}</p>
+        {{ form.weight }}
+        <p class="lead pt-3">{{ form.height.label }}</p>
+        {{ form.weight }}
+        <p class="lead pt-3">{{ form.calorie_goal.label }}</p>
+        {{ form.calorie_goal }}
         <div class="buttons profiles">
-            <input type="submit" class="button button-create" value="Create">
+            <input type="submit" class="btn btn-primary" value="Create">
         </div>
     </form>
 {% endblock %}

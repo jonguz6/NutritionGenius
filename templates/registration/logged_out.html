@@ -2,9 +2,12 @@
 
 {% block content %}
     <div class="content-fluid text-center">
-        <div class="col-md-10">
-            <p>Logged out!</p>
-        <a href="{% url 'login' %}">Click here to login again.</a>
+        <div class="col-md-6 offset-md-3">
+            <h1 class="display-4">Logged out!</h1>
+        </div>
+        <div class="col-md-6 offset-md-3">
+            <a type="button" class="btn btn-primary"
+               href="{% url 'login' %}">Click here to login again</a>
         </div>
     </div>
 {% endblock %}

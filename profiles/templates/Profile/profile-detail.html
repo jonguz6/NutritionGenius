@@ -4,51 +4,116 @@
     <title>{{ object.name }} Detail View</title>
 {% endblock %}
 {% block content %}
-    <div class="titles">
-        <h1>{{ object | to_verbose_name | capfirst }}</h1>
-        <h2>username: {{ object.user.username }}</h2>
-    </div>
-    <div class="details">
-        <p>Name: {{ object.user.first_name }} {{ object.user.last_name }}</p>
-        <p>Weight: {{ object.weight }}</p>
-        <p>Height: {{ object.height }}</p>
-    </div>
-    <div class="details">
-        {% if object.calorie_goal is str %}
-            <p>Calories today: {{ object.calories_today }}</p>
-            <p>{{ object.calories_left_in_goal }}</p>
-        {% else %}
-            <p>Calories today: {{ object.calories_today }} / {{ object.calorie_goal }}</p>
-            {% with object.calories_left_in_goal as calories_left %}
-                {% if calories_left >= 0 %}
-                    <p>Calories left in goal: {{ calories_left | floatformat:-1 }}</p>
+    <div class="content-fluid">
+        <div class="col-md-6 offset-md-3 align-self-center text-center">
+            <h1 class="display-2">{{ object.user.first_name }} {{ object.user.last_name }}</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-4 align-self-center">
+                <table class="table table-borderless">
+                    <tr>
+                        <td>
+                            <div class="d-flex justify-content-end"><span class="badge bg-primary">Weight</span>
+                            </div>
+                        </td>
+                        <td class="content-justify-right">{{ object.weight }} kg</td>
+                        <td>
+                            <div class="d-flex justify-content-end"><span class="badge bg-primary">Height</span>
+                            </div>
+                        </td>
+                        <td class="content-justify-left">{{ object.height }} cm</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row text-center ">
+            <div class="col-md-5 mx-auto content-fluid my-2 rounded bg-primary">
+                {% if object.calorie_goal is str %}
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories
+                            today: {{ object.calories_today }} kcal
+                        </div>
+                        <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">{{ object.calories_left_in_goal }}</div>
+                    </div>
                 {% else %}
-                    <p>Calories over goal: {{ calories_left | abs | floatformat:-1 }}</p>
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories
+                            today: <strong>{{ object.calories_today }}
+                                / {{ object.calorie_goal }}</strong></div>
+                        {% with object.calories_left_in_goal as calories_left %}
+                            {% if calories_left >= 0 %}
+                                <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories left
+                                    in
+                                    goal: <strong>{{ calories_left | floatformat:-1 }}</strong></div>
+                            {% else %}
+                                <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories over
+                                    goal: <strong>{{ calories_left | abs | floatformat:-1 }}</strong></div>
+                            {% endif %}
+                            </div>
+                            <div class="progress">
+                            {% percent object.calories_today object.calorie_goal as cal_proc %}
+                            <div class="progress-bar progress-bar-striped progress-bar-animated
+                                        {% if cal_proc < 70 %}
+                                            bg-success
+                                        {% elif cal_proc  < 95 %}
+                                            bg-warning
+                                        {% else %}
+                                            bg-danger
+                                        {% endif %}"
+                                 role="progressbar"
+                                 style="width: {{ cal_proc }}%"
+                                 aria-valuenow="{{ object.calories_today }}" aria-valuemin="0"
+                                 aria-valuemax="{{ object.calorie_goal }}">{{ cal_proc | floatformat:0 }}%
+                            </div>
+                        {% endwith %}
+                        </div>
+                    </div>
                 {% endif %}
-            {% endwith %}
+        </div>
+        <div class="row text-center">
+            <div class="col-md-5 my-2 mx-auto rounded bg-primary">
+                <div class="row">
+                    <div class="col-sm-4 col-lg-5 ms-auto me-1 my-2 bg-light rounded">Carbs
+                        today: <strong>{{ object.carbs_today |  floatformat:-1 }}</strong></div>
+                    <div class="col-sm-4 col-lg-5 ms-1 me-auto me-lg-auto my-2 bg-light rounded">Fats
+                        today: <strong>{{ object.fats_today | floatformat:-1 }}</strong></div>
+                    <div class="col-sm-4 col-lg-5 mx-auto my-2 offset-lg-3 bg-light rounded">Protein
+                        today: <strong>{{ object.protein_today |floatformat:-1 }}</strong></div>
+                </div>
 
-        {% endif %}
+                <div class="progress">
+                    <div class="progress-bar bg-danger" role="progressbar"
+                         style="width: {% percent object.carbs_today object.nutrition_today %}%"
+                         aria-valuenow="{{ object.carbs_today }}" aria-valuemin="0"
+                         aria-valuemax="{{ object.nutrition_today }}">Carbs
+                    </div>
+                    <div class="progress-bar bg-info" role="progressbar"
+                         style="width: {% percent object.fats_today object.nutrition_today %}%"
+                         aria-valuenow="{{ object.fats_today }}" aria-valuemin="0"
+                         aria-valuemax="{{ object.nutrition_today }}">Fats
+                    </div>
+                    <div class="progress-bar bg-success" role="progressbar"
+                         style="width: {% percent object.protein_today object.nutrition_today %}%"
+                         aria-valuenow="{{ object.protein_today }}" aria-valuemin="0"
+                         aria-valuemax="{{ object.nutrition_today }}">Protein
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="detail">
-        <p>Carbs today: {{ object.carbs_today |  floatformat:-1 }}</p>
-        <p>Fats today: {{ object.fats_today | floatformat:-1 }}</p>
-        <p>Protein today: {{ object.protein_today |floatformat:-1 }}</p>
-    </div>
-    <div class="buttons profile">
-        <input type="button"
-               class="button button-update"
-               value="Update"
-               onclick="location.href=
-                       '{% url 'profiles:profile-update' pk=object.pk %}'">
-        <input type="button"
-               class="button button-delete"
-               value="Delete"
-               onclick="location.href=
-                       '{% url 'profiles:profile-delete' pk=object.pk %}'">
-    </div>
-    <div class="buttons">
-        <input type="button"
-               value="View Food List"
-               onclick="location.href='{% url 'profiles:food_storage-of-user-list' prof_id=object.pk %}'">
+    <div class="row text-center">
+        <div class="col-md-6 offset-md-3">
+            <a type="button"
+               class="btn btn-secondary"
+               href="{% url 'profiles:food_storage-of-user-list' prof_id=object.pk %}">View All Foods</a>
+        </div>
+        <div class="col-md-6 offset-md-3">
+            <div class="btn-group" role="group">
+                <a type="button" class="btn btn-info"
+                   href="{% url 'profiles:profile-update' pk=object.pk %}">Update profile</a>
+                <a type="button" class="btn btn-danger"
+                   href="{% url 'profiles:profile-delete' pk=object.pk %}">Delete profile</a>
+            </div>
+        </div>
     </div>
 {% endblock %}

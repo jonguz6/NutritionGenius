@@ -212,19 +212,19 @@ class FoodStorageForCurrentUserDetailView(LoginRequiredMixin, views.DetailView):
     def get(self, request, *args, **kwargs):
         if check_user_has_access(self, request):
             return super().get(request, *args, **kwargs)
-        messages.error(request, "You do not have permission to view this item!")
+        messages.error(request, "You do not have permission to view this item!", extra_tags='alert-danger')
         return redirect(request.META.get('HTTP_REFERER') or reverse_lazy('profiles:user-profile'))
 
 
 class FoodStorageForCurrentUserUpdateView(LoginRequiredMixin, views.UpdateView):
     model = models.UserFoodStorage
     template_name = "Current-User/profile-food-update.html"
-    form = forms.UserFoodStorageForm
+    form_class = forms.UserFoodStorageForm
 
     def get(self, request, *args, **kwargs):
         if check_user_has_access(self, request):
             return super().get(request, *args, **kwargs)
-        messages.error(request, "You do not have permission to view this item!")
+        messages.error(request, "You do not have permission to view this item!", extra_tags='alert-danger')
         return redirect(request.META.get('HTTP_REFERER') or reverse_lazy('profiles:user-profile'))
 
     def get_success_url(self):
@@ -232,15 +232,15 @@ class FoodStorageForCurrentUserUpdateView(LoginRequiredMixin, views.UpdateView):
                             kwargs={'pk': self.object.id})
 
 
-class FoodStorageForCurrentUserDeleteView(LoginRequiredMixin, views.UpdateView):
+class FoodStorageForCurrentUserDeleteView(LoginRequiredMixin, views.DeleteView):
     model = models.UserFoodStorage
-    template_name = "Current-User/profile-food-update.html"
-    success_url = reverse_lazy('profiles:user-food_storage')
+    template_name = "Current-User/profile-food-delete.html"
+    success_url = reverse_lazy('profiles:user-today-food_storage')
 
     def get(self, request, *args, **kwargs):
         if check_user_has_access(self, request):
             return super().get(request, *args, **kwargs)
-        messages.error(request, "You do not have permission to view this item!")
+        messages.error(request, "You do not have permission to view this item!", extra_tags='alert-danger')
         return redirect(request.META.get('HTTP_REFERER') or reverse_lazy('profiles:user-profile'))
 
 
@@ -251,7 +251,7 @@ class FoodStorageForCurrentUserListView(LoginRequiredMixin, views.ListView):
     def get_queryset(self):
         user = self.request.user
         profile = models.Profile.objects.get(user=user)
-        return models.UserFoodStorage.objects.filter(user=profile)
+        return models.UserFoodStorage.objects.filter(user=profile).order_by('-date')
 
 
 class TodayFoodStorageForCurrentUserListView(LoginRequiredMixin, views.ListView):
@@ -262,7 +262,7 @@ class TodayFoodStorageForCurrentUserListView(LoginRequiredMixin, views.ListView)
         user = self.request.user
         today = date.today()
         profile = models.Profile.objects.get(user=user)
-        return models.UserFoodStorage.objects.filter(user=profile, date=today)
+        return models.UserFoodStorage.objects.filter(user=profile, date=today).order_by('-date')
 
 
 @login_required(login_url=reverse_lazy('login'))
@@ -291,9 +291,9 @@ def user_food_storage_create_view(request):
                         pass
                     else:
                         storage.save()
-                        messages.success(request, "Your meal has been saved successfully!")
+                        messages.success(request, "Your meal has been saved successfully!", extra_tags='alert-success')
         else:
-            messages.error(request, "Save unsuccessful, make sure you entered a meal!")
+            messages.error(request, "Save unsuccessful, make sure you entered a meal!", extra_tags='alert-danger')
     return render(
         request, "Current-User/profile-form.html", context
     )

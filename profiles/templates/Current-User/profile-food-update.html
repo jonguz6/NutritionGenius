@@ -1,18 +1,29 @@
 {% extends "base.html" %}
 {% load project_tags %} }}
 {% block title %}
-    <title>Update {{ view | to_model_verbose_name }}</title>
+    <title>Update {{ view | to_model_verbose_name | capfirst }}</title>
 {% endblock %}
 {% block content %}
-    <div class="titles">
-        <h1>{{ object | to_verbose_name }}</h1>
-        <h2>{{ object.date }}</h2>
-    </div>
-    <form method="post" class="update-form food-item">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <div class="buttons food-item">
-            <input type="submit" class="button button-update" value="Update">
+    <div class="content text-center">
+        <div class="col-md-6 offset-md-3 mx-auto d-flex justify-content-center padding">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="row" class=" content-justify-right ">
+                            <div class="d-flex justify-content-end"><span
+                                    class="badge bg-primary">{{ form.food.label }}</span>
+                            </div>
+                        </th>
+                        <td>
+                            <div class="d-flex justify-content-start">{{ form.food }}</div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="buttons food-item">
+                    <input type="submit" class="btn btn-primary" value="Update">
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 {% endblock %}
