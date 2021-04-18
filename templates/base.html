@@ -79,11 +79,19 @@
                 <p><a href="{% url 'index' %}">Home</a></p>
                 <p><a href="{% url 'about' %}">About</a></p>
             </div>
-            <div class="col-md-4">
-                <hr class="light">
-                <p><a href="{% url 'food_storage:index' %}">Food Storage</a></p>
-                <p><a href="{% url 'profiles:index' %}">Profiles</a></p>
-            </div>
+            {% with perms.food_storage.view_food_ingredient as p_food and perms.profile.view_profile as p_profile %}
+                {% if p_food or p_profile %}
+                    <div class="col-md-4">
+                        <hr class="light">
+                        {% if p_food %}
+                            <p><a href="{% url 'food_storage:index' %}">Food Storage</a></p>
+                        {% endif %}
+                        {% if p_profile %}
+                            <p><a href="{% url 'profiles:index' %}">Profiles</a></p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endwith %}
             <div class="col-12">
                 <hr class="light">
                 <h5>&copy; Jonatan Guzy, ver 0.0.1</h5>
