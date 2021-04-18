@@ -14,8 +14,6 @@ from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
 
-import secrets_django
-
 
 def get_env_value(env_variable):
     try:
