@@ -16,12 +16,12 @@
                             <div class="d-flex justify-content-end"><span class="badge bg-primary">Weight</span>
                             </div>
                         </td>
-                        <td class="content-justify-right">{{ object.weight }} kg</td>
+                        <td class="content-justify-right">{{ object.weight | floatformat:-1 }} kg</td>
                         <td>
                             <div class="d-flex justify-content-end"><span class="badge bg-primary">Height</span>
                             </div>
                         </td>
-                        <td class="content-justify-left">{{ object.height }} cm</td>
+                        <td class="content-justify-left">{{ object.height | floatformat:-1 }} cm</td>
                     </tr>
                 </table>
             </div>
@@ -37,17 +37,12 @@
                     </div>
                 {% else %}
                     <div class="row">
-                        <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories
-                            today: <strong>{{ object.calories_today }}
-                                / {{ object.calorie_goal }}</strong></div>
+                        <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories today: <strong>{{ object.calories_today }} / {{ object.calorie_goal }}</strong></div>
                         {% with object.calories_left_in_goal as calories_left %}
                             {% if calories_left >= 0 %}
-                                <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories left
-                                    in
-                                    goal: <strong>{{ calories_left | floatformat:-1 }}</strong></div>
+                                <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories left in goal: <strong>{{ calories_left | floatformat:-1 }}</strong></div>
                             {% else %}
-                                <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories over
-                                    goal: <strong>{{ calories_left | abs | floatformat:-1 }}</strong></div>
+                                <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories over goal: <strong>{{ calories_left | abs | floatformat:-1 }}</strong></div>
                             {% endif %}
                             </div>
                             <div class="progress">
@@ -73,12 +68,9 @@
         <div class="row text-center">
             <div class="col-md-5 my-2 mx-auto rounded bg-primary">
                 <div class="row">
-                    <div class="col-sm-4 col-lg-5 ms-auto me-1 my-2 bg-light rounded">Carbs
-                        today: <strong>{{ object.carbs_today |  floatformat:-1 }}</strong></div>
-                    <div class="col-sm-4 col-lg-5 ms-1 me-auto me-lg-auto my-2 bg-light rounded">Fats
-                        today: <strong>{{ object.fats_today | floatformat:-1 }}</strong></div>
-                    <div class="col-sm-4 col-lg-5 mx-auto my-2 offset-lg-3 bg-light rounded">Protein
-                        today: <strong>{{ object.protein_today |floatformat:-1 }}</strong></div>
+                    <div class="col-sm-4 col-lg-5 ms-auto me-1 my-2 bg-light rounded">Carbs today: <strong>{{ object.carbs_today |  floatformat:-1 }}</strong></div>
+                    <div class="col-sm-4 col-lg-5 ms-1 me-auto me-lg-auto my-2 bg-light rounded">Fats today: <strong>{{ object.fats_today | floatformat:-1 }}</strong></div>
+                    <div class="col-sm-4 col-lg-5 mx-auto my-2 offset-lg-3 bg-light rounded">Protein today: <strong>{{ object.protein_today |floatformat:-1 }}</strong></div>
                 </div>
 
                 <div class="progress">
