@@ -32,11 +32,21 @@
                 <li class="nav-item active">
                     <a href="{% url 'profiles:user-profile' %}" class="nav-link">Profile</a>
                 </li>
+                {% if perms.food_storage.view_food_ingredient %}
+                    <li class="nav-item">
+                        <a href="{% url 'food_storage:index' %}" class="nav-link">Food Storage</a>
+                    </li>
+                {% endif %}
+                {% if perms.profile.view_profile %}
+                    <li class="nav-item">
+                        <a href="{% url 'profiles:index' %}" class="nav-link">Profiles</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
-                    <a href="{% url 'food_storage:index' %}" class="nav-link">Food Storage</a>
+                    <a href="{% url 'profiles:user-form' %}" class="nav-link">Add Food</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'profiles:index' %}" class="nav-link">Profiles</a>
+                    <a href="{% url 'profiles:user-today-food_storage' %}" class="nav-link">Today's food</a>
                 </li>
                 <li class="nav-item">
                     {% if request.user.is_authenticated %}
