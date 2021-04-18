@@ -2,8 +2,8 @@ from datetime import date
 
 import django.views.generic as views
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db import IntegrityError
 from django.forms import modelformset_factory
 from django.shortcuts import render, redirect
@@ -21,67 +21,78 @@ def check_user_has_access(instance, request):
     return False
 
 
-class ProfileCreateView(views.CreateView):
+class ProfileCreateView(PermissionRequiredMixin, views.CreateView):
+    permission_required = ('profiles.add_profile', )
     model = models.Profile
     form_class = forms.ProfileForm
     template_name = "Profile/profile-create.html"
     success_url = reverse_lazy('profiles:profile-list')
 
 
-class ProfileListView(views.ListView):
+class ProfileListView(PermissionRequiredMixin, views.ListView):
+    permission_required = ('profiles.view_profile', )
     model = models.Profile
     template_name = "Profile/profile-list.html"
 
 
-class ProfileDetailView(views.DetailView):
+class ProfileDetailView(PermissionRequiredMixin, views.DetailView):
+    permission_required = ('profiles.view_profile', )
     model = models.Profile
     template_name = "Profile/profile-detail.html"
 
 
-class ProfileUpdateView(views.UpdateView):
+class ProfileUpdateView(PermissionRequiredMixin, views.UpdateView):
+    permission_required = ('profiles.update_profile', )
     model = models.Profile
     form_class = forms.ProfileForm
     template_name = "Profile/profile-update.html"
     success_url = reverse_lazy('profiles:profile-list')
 
 
-class ProfileDeleteView(views.DeleteView):
+class ProfileDeleteView(PermissionRequiredMixin, views.DeleteView):
+    permission_required = ('profiles.delete_profile', )
     model = models.Profile
     template_name = "Profile/profile-delete.html"
     success_url = reverse_lazy('profiles:profile-list')
 
 
-class FoodItemCreateView(views.CreateView):
+class FoodItemCreateView(PermissionRequiredMixin, views.CreateView):
+    permission_required = ('profiles.add_food_item', )
     model = models.FoodItem
     form_class = forms.FoodItemForm
     template_name = "FoodItem/food_item-create.html"
     success_url = reverse_lazy('profiles:food_item-list')
 
 
-class FoodItemListView(views.ListView):
+class FoodItemListView(PermissionRequiredMixin, views.ListView):
+    permission_required = ('profiles.view_food_item', )
     model = models.FoodItem
     template_name = "FoodItem/food_item-list.html"
 
 
-class FoodItemDetailView(views.DetailView):
+class FoodItemDetailView(PermissionRequiredMixin, views.DetailView):
+    permission_required = ('profiles.view_food_item', )
     model = models.FoodItem
     template_name = "FoodItem/food_item-detail.html"
 
 
-class FoodItemUpdateView(views.UpdateView):
+class FoodItemUpdateView(PermissionRequiredMixin, views.UpdateView):
+    permission_required = ('profiles.update_food_item', )
     model = models.FoodItem
     form_class = forms.FoodItemForm
     template_name = "FoodItem/food_item-update.html"
     success_url = reverse_lazy('profiles:food_item-list')
 
 
-class FoodItemDeleteView(views.DeleteView):
+class FoodItemDeleteView(PermissionRequiredMixin, views.DeleteView):
+    permission_required = ('profiles.delete_food_item', )
     model = models.FoodItem
     template_name = "FoodItem/food_item-delete.html"
     success_url = reverse_lazy('profiles:food_item-list')
 
 
-class UserFoodStorageCreateView(views.CreateView):
+class UserFoodStorageCreateView(PermissionRequiredMixin, views.CreateView):
+    permission_required = ('profiles.add_user_food_storage', )
     model = models.UserFoodStorage
     form_class = forms.UserFoodStorageForm
     template_name = "UserFoodStorage/food_storage-create.html"
@@ -112,12 +123,14 @@ class UserFoodStorageCreateView(views.CreateView):
         return super().post(request, *args, **kwargs)
 
 
-class UserFoodStorageListView(views.ListView):
+class UserFoodStorageListView(PermissionRequiredMixin, views.ListView):
+    permission_required = ('profiles.add_user_food_storage', )
     model = models.UserFoodStorage
     template_name = "UserFoodStorage/food_storage-list.html"
 
 
-class FoodStorageForUserListView(views.ListView):
+class FoodStorageForUserListView(PermissionRequiredMixin, views.ListView):
+    permission_required = ('profiles.view_user_food_storage', )
     model = models.UserFoodStorage
     template_name = "UserFoodStorage/food_storage-user-list.html"
 
@@ -126,7 +139,8 @@ class FoodStorageForUserListView(views.ListView):
         return models.UserFoodStorage.objects.filter(user=pk)
 
 
-class FoodStorageForTodayListView(views.ListView):
+class FoodStorageForTodayListView(PermissionRequiredMixin, views.ListView):
+    permission_required = ('profiles.view_user_food_storage', )
     model = models.UserFoodStorage
     template_name = "UserFoodStorage/food_storage-user-list.html"
 
@@ -136,19 +150,22 @@ class FoodStorageForTodayListView(views.ListView):
         return models.UserFoodStorage.objects.filter(user=pk, date=today)
 
 
-class UserFoodStorageDetailView(views.DetailView):
+class UserFoodStorageDetailView(PermissionRequiredMixin, views.DetailView):
+    permission_required = ('profiles.view_user_food_storage', )
     model = models.UserFoodStorage
     template_name = "UserFoodStorage/food_storage-detail.html"
 
 
-class UserFoodStorageUpdateView(views.UpdateView):
+class UserFoodStorageUpdateView(PermissionRequiredMixin, views.UpdateView):
+    permission_required = ('profiles.update_user_food_storage', )
     model = models.UserFoodStorage
     form_class = forms.UserFoodStorageForm
     template_name = "UserFoodStorage/food_storage-update.html"
     success_url = reverse_lazy('profiles:food_storage-list')
 
 
-class UserFoodStorageDeleteView(views.DeleteView):
+class UserFoodStorageDeleteView(PermissionRequiredMixin, views.DeleteView):
+    permission_required = ('profiles.delete_user_food_storage', )
     model = models.UserFoodStorage
     template_name = "UserFoodStorage/food_storage-delete.html"
     success_url = reverse_lazy('profiles:food_storage-list')
@@ -282,6 +299,7 @@ def user_food_storage_create_view(request):
     )
 
 
+@permission_required('profiles.view_profile')
 def index(request):
     return render(
         request, template_name="profile-index.html"
