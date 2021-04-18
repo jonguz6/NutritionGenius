@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+<nav class="navbar navbar-expand-md navbar-light bg-warning sticky-top">
     <div class="container-fluid">
         <a href="{% url 'index' %}" class="navbar-brand">Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
@@ -29,25 +29,27 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a href="{% url 'profiles:user-profile' %}" class="nav-link">Profile</a>
-                </li>
-                {% if perms.food_storage.view_food_ingredient %}
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item active">
+                        <a href="{% url 'profiles:user-profile' %}" class="nav-link">Profile</a>
+                    </li>
+                    {% if perms.food_storage.view_food_ingredient %}
+                        <li class="nav-item">
+                            <a href="{% url 'food_storage:index' %}" class="nav-link">Food Storage</a>
+                        </li>
+                    {% endif %}
+                    {% if perms.profile.view_profile %}
+                        <li class="nav-item">
+                            <a href="{% url 'profiles:index' %}" class="nav-link">Profiles</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
-                        <a href="{% url 'food_storage:index' %}" class="nav-link">Food Storage</a>
+                        <a href="{% url 'profiles:user-form' %}" class="nav-link">Add Food</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'profiles:user-today-food_storage' %}" class="nav-link">Today's food</a>
                     </li>
                 {% endif %}
-                {% if perms.profile.view_profile %}
-                    <li class="nav-item">
-                        <a href="{% url 'profiles:index' %}" class="nav-link">Profiles</a>
-                    </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a href="{% url 'profiles:user-form' %}" class="nav-link">Add Food</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'profiles:user-today-food_storage' %}" class="nav-link">Today's food</a>
-                </li>
                 <li class="nav-item">
                     {% if request.user.is_authenticated %}
                         <a href="{% url 'logout' %}" class="nav-link">Logout</a>
@@ -79,7 +81,6 @@
             </button>
         </div>
     {% endfor %}
-
     {% block content %}
     {% endblock %}
 </main>

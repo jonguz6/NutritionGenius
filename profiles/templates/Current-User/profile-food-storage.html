@@ -4,27 +4,25 @@
     <title>Your food list</title>
 {% endblock %}
 {% block content %}
-    <div class="object-list food-item">
-        <ul>
-            {% for object in object_list %}
-                <li>
-                    <a href="{% url 'profiles:user-food-detail' pk=object.pk %}">
-                        {{ object.food.ingredient }}: {{ object.food.quantity }}
-                    </a>
-                    <p>{{ object.date }}</p>
-                </li>
-                <hr>
-            {% endfor %}
-        </ul>
+    <div class="content-fluid text-center ">
+        <div class="col-md-6 offset-md-3">
+            <ul class="list-group list-group-flush">
+                {% for object in object_list %}
+                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start position-relative">
+                        <span class="badge bg-secondary">{{ object.food.quantity | floatformat }}</span>
+                        <a class="stretched-link" href="{% url 'profiles:user-food-detail' pk=object.pk %}">
+                            {{ object.food.ingredient }}
+                        </a>
+                        <span class="badge bg-primary rounded-pill">{{ object.date }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-    <div class="buttons food-item">
-        <input type="button"
-               class="button button-create"
-               value="Create New"
-               onclick="location.href='{% url 'profiles:user-form'%}'">
-        <input type="button"
-               class="button button-create"
-               value="Back"
-               onclick="location.href='{% url 'profiles:user-profile'%}'">
+    <div class="col-md-6 offset-md-3 text-center">
+        <a type="button" class="btn btn-primary"
+           href="{% url 'profiles:user-form' %}">Create New</a>
+        <a type="button" class="btn btn-secondary"
+           href="{% url 'profiles:user-profile' %}">Back</a>
     </div>
 {% endblock %}

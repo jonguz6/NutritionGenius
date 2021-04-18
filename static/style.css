@@ -18,10 +18,26 @@ html, body {
     font-size: 1.1em !important;
 }
 
+img.img-fluid {
+    max-height: 80vh
+}
+/*--- Link --*/
+a {
+    color: black;
+    text-decoration: none;
+}
+a:hover, a:active {
+    color: gray;
+}
+a:focus {
+    color: darkgray;
+}
+
 /*--- Carousel --*/
 .carousel-inner img {
+    height: 32rem;
+    object-fit: cover;
     width: 100%;
-    height: 100%;
 }
 .carousel-caption {
     position: absolute;
@@ -41,41 +57,59 @@ html, body {
 
 /*--- Buttons ---*/
 .btn-primary {
-    background-color: bisque;
-    color: #782f8f;
-    border: 1px solid #782f8f;
+    background-color: #FFC107;
+    color: black;
+    border: 1px solid #FFC107;
 }
 .btn-primary:hover, .btn-primary:active {
-    background-color: burlywood;
-    color: #431152;
-    border: 1px solid #431152;
+    background-color: #dca70f;
+    color: black !important;
+    border: 1px solid #dca70f;
 }
 .btn-primary:focus {
-    background-color: bisque;
-    color: #782f8f;
-    border: 1px solid #fff;
+    background-color: #dca70f;
+    color: black !important;
+    border: 1px solid black;
     box-shadow: 0 0 0 0.25rem rgba(248,249,250,.5) !important;
 }
 .btn-outline-secondary, .btn-outline-secondary:focus {
-    color: #782f8f;
-    border-color: #782f8f;
+    color: black;
+    border-color: #FFC107;
 }
 .btn-outline-secondary:hover, .btn-outline-secondary:active {
-    color: #fff;
-    background-color: #431152;
-    border-color: #fff;
+    color: black;
+    background-color: white;
+    border-color: #FFC107;
 }
 .shortcuts {
     width: 100%;
     margin-bottom: 2rem;
 }
+/*--- Label --*/
+.bg-primary {
+    background-color: #FFC107 !important;
+    color: black;
+    border: 1px solid #dca70f;
+}
 
+/*--- Forms --*/
+input {
+    color: black;
+    border: 1px solid #dca70f;
+}
+select {
+    max-width: 50vw;
+}
 /*--- Jumbotron --*/
 .jumbotron {
     padding: 1rem;
     border-radius: 0;
 }
 
+/*--- Card --*/
+.card {
+    border-color: #dca70f;
+}
 /*Padding*/
 .padding {
     padding-bottom: 2rem;
