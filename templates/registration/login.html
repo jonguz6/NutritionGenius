@@ -2,18 +2,18 @@
 {% block content %}
     <div class="content-fluid text-center welcome padding">
         {% if form.errors %}
-            <div class="col-md6">
+            <div class="col-md-6">
                 <div class="row">
                     <p>Your username and password didn't match. Please try again.</p>
                 </div>
             </div>
         {% endif %}
         {% if next %}
-            <div class="col-md6">
+            <div class="col-md-6 offset-md-3 bg-danger rounded">
                 {% if user.is_authenticated %}
                     <div class="row">
                         <p>Your account doesn't have access to this page. To proceed,
-                            please login with an account that has access.</p>
+                            please login with an account that has access.</div>
                     </div>
                 {% else %}
                     <div class="row">
@@ -22,24 +22,40 @@
                 {% endif %}
             </div>
         {% endif %}
-        <div class="welcome padding content-fluid">
-            <form method="post" action="{% url 'login' %}">
-                {% csrf_token %}
-                <div class="row">
-                    {{ form.username.label_tag }} {{ form.username }}
-                </div>
-                <div class="row padding">
-                    {{ form.password.label_tag }}{{ form.password }}
-                </div>
-                <div class="text-center padding">
-                    <input type="submit" value="Login" class="button button-create"/>
-                    <input type="hidden" name="next" value="{{ next }}"/>
-                </div>
-            </form>
-            <div class="row">
-                <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+    <div class="welcome padding content-fluid">
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <table class="table table-borderless d-flux justify-content-center">
+                <tr>
+                    <th scope="row" class=" content-justify-right ">
+                        <div class="d-flex justify-content-end"><span
+                                class="badge bg-primary">{{ form.username.label }}</span>
+                        </div>
+                    </th>
+                    <td>
+                        <div class="d-flex justify-content-start">{{ form.username }}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class=" content-justify-right ">
+                        <div class="d-flex justify-content-end"><span
+                                class="badge bg-primary">{{ form.password.label }}</span>
+                        </div>
+                    </th>
+                    <td>
+                        <div class="d-flex justify-content-start">{{ form.password }}</div>
+                    </td>
+                </tr>
+            </table>
+            <div class="text-center padding">
+                <input type="submit" value="Login" class="btn btn-primary"/>
+                <input type="hidden" name="next" value="{{ next }}"/>
             </div>
+        </form>
+        <div class="row">
+            <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
         </div>
+    </div>
 
     </div>
 {% endblock %}

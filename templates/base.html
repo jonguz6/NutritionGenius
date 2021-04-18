@@ -22,15 +22,15 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-light bg-warning sticky-top">
-    <div class="container-fluid">
-        <a href="{% url 'index' %}" class="navbar-brand">Home</a>
+    <div class="content-fluid">
+        <a href="{% url 'index' %}" class="navbar-brand">NutritionGenius</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 {% if request.user.is_authenticated %}
-                    <li class="nav-item active">
+                    <li class="nav-item active ">
                         <a href="{% url 'profiles:user-profile' %}" class="nav-link">Profile</a>
                     </li>
                     {% if perms.food_storage.view_food_ingredient %}
@@ -85,7 +85,7 @@
     {% endblock %}
 </main>
 <footer>
-    <div class="container-fluid padding">
+    <div class="content-fluid padding">
         <div class="row text-center">
             <div class="col-md-4">
                 <hr class="light">

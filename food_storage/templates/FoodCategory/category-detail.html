@@ -4,37 +4,39 @@
     <title>{{ object.name }} Detail View</title>
 {% endblock %}
 {% block content %}
-    <div class="titles">
-        <h1>{{ object | to_verbose_name | capfirst }}</h1>
-        <h2>{{ object.name }}</h2>
-    </div>
-    <div class="details">
-        {% if object.Ingredients.first %}
-            <ul>
-                {% for ingredient in object.Ingredients.all %}
-                    <a href="{% url 'food_storage:ingredient-detail' pk=ingredient.pk %}">
-                        {{ ingredient.name }}
-                    </a>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-    <div class="buttons food-category">
-        <input type="button"
-               class="button button-update"
-               value="Update"
-               onclick="location.href=
-                       '{% url 'food_storage:category-update' pk=object.pk %}'">
-        <input type="button"
-               class="button button-delete"
-               value="Delete"
-               onclick="location.href=
-                       '{% url 'food_storage:category-delete' pk=object.pk %}'">
-    </div>
-    <div class="buttons">
-        <input type="button"
-               class="button button-create"
-               value="Create new ingredient"
-               onclick="location.href='{% url 'food_storage:ingredient-create-w-cat' cat_pk=object.pk %}'">
+    <div class="content-fluid">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 align-self-center text-center">
+                <h1 class="display-1">{{ object | to_verbose_name | capfirst }}</h1>
+                <h2 class="display-5">{{ object.name }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                {% if object.Ingredients.first %}
+                    <ul class="list-group list-group-flush">
+                        {% for ingredient in object.Ingredients.all %}
+                            <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start position-relative">
+                                <a class="stretched-link"
+                                   href="{% url 'food_storage:ingredient-detail' pk=ingredient.pk %}">
+                                    {{ ingredient.name }}
+                                </a>
+                                <span class="badge bg-primary rounded-pill"> {{ ingredient.calories }}kcal</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-6 offset-md-3 text-center">
+            <a type="button" class="btn btn-success"
+               href="{% url 'food_storage:category-update' pk=object.pk %}">Update</a>
+            <a type="button" class="btn btn-danger"
+               href="{% url 'food_storage:category-delete' pk=object.pk %}">Delete</a>
+        </div>
+        <div class="col-md-6 offset-md-3 text-center">
+            <a type="button" class="btn btn-primary"
+               href="{% url 'food_storage:ingredient-create-w-cat' cat_pk=object.pk %}">Create new {{ object.name }}</a>
+        </div>
     </div>
 {% endblock %}

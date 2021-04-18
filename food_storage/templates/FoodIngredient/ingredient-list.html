@@ -1,24 +1,22 @@
 {% extends "base.html" %}
 {% load project_tags %}
 {% block title %}
-    <title>{{ view | to_model_verbose_name }} List</title>
+    <title>{{ view | to_model_verbose_name | capfirst }} List</title>
 {% endblock %}
 {% block content %}
-    <div class="object-list food-ingredient">
-        <ul>
+    <div class="col-md-4 offset-md-4 text-center">
+        <ul class="list-group list-group-flush">
             {% for object in object_list %}
-                <li>
-                    <a href="{% url 'food_storage:ingredient-detail' pk=object.pk %}">
+                <li class="list-group-item position-relative">
+                    <a class="stretched-link" href="{% url 'food_storage:ingredient-detail' pk=object.pk %}">
                         {{ object.name }}
                     </a>
                 </li>
             {% endfor %}
         </ul>
     </div>
-    <div class="buttons food-ingredient">
-        <input type="button"
-               class="button button-create"
-               value="Create New"
-               onclick="location.href='{% url 'food_storage:ingredient-create'%}'">
+    <div class="col-md-6 offset-md-3 text-center">
+        <a type="button" class="btn btn-primary"
+           href="{% url 'food_storage:ingredient-create' %}">Create New</a>
     </div>
 {% endblock %}

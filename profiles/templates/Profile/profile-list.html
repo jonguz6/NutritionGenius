@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load project_tags %} }}
 {% block title %}
-    <title>{{ view | to_model_verbose_name }} List</title>
+    <title>{{ view | to_model_verbose_name | capfirst }} List</title>
 {% endblock %}
 {% block content %}
-    <div class="object-list profile">
-        <ul>
+    <div class="col-md-4 offset-md-4 text-center">
+        <ul class="list-group list-group-flush">
             {% for object in object_list %}
-                <li>
-                    <a href="{% url 'profiles:profile-detail' pk=object.pk %}">
+                <li class="list-group-item position-relative">
+                    <a class="stretched-link" href="{% url 'profiles:profile-detail' pk=object.pk %}">
                         {% with f_name=object.user.first_name l_name=object.user.last_name %}
                             {% if f_name != "" or l_name != "" %}
                                 {{ f_name }} {{ l_name }}
@@ -21,10 +21,9 @@
             {% endfor %}
         </ul>
     </div>
-    <div class="buttons profile">
-        <input type="button"
-               class="button button-create"
-               value="To create a new profile, create a new User account"
-                {# onclick="location.href='{% url 'profiles:profile-create'%}'" #} >
+    <div class="col-md-6 offset-md-3 text-center">
+        <a type="button" class="btn btn-info">
+            To create a new profile, create a new User account
+        </a>
     </div>
 {% endblock %}

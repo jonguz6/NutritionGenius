@@ -3,18 +3,20 @@
     <title>Food Storage Index</title>
 {% endblock %}
 {% block content %}
-    <ul class="index-list">
-        <li>
-            <a href="{% url 'food_storage:category-list' %}"
-               class="index-link">
-                Food Categories
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'food_storage:ingredient-list' %}"
-               class="index-link">
-                Ingredients
-            </a>
-        </li>
-    </ul>
+    <div class="col-md-6 offset-md-3">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item position-relative">
+                <a href="{% url 'food_storage:category-list' %}"
+                   class="stretched-link">
+                    Food Categories
+                </a>
+            </li>
+            <li class="list-group-item position-relative">
+                <a href="{% url 'food_storage:ingredient-list' %}"
+                   class="stretched-link">
+                    Ingredients
+                </a>
+            </li>
+        </ul>
+    </div>
 {% endblock %}

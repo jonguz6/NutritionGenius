@@ -3,18 +3,21 @@
     <title>Profile Index</title>
 {% endblock %}
 {% block content %}
-    <ul class="index-list">
-        <li>
-            <a href="{% url 'profiles:profile-list' %}"
-               class="index-link">
-                Profiles
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'profiles:food_item-list' %}"
-               class="index-link">
-                Food Items
-            </a>
-        </li>
-    </ul>
+    <div class="col-md-6 offset-md-3">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item position-relative">
+                <a href="{% url 'profiles:profile-list' %}"
+                   class="stretched-link">
+                    Profiles
+                </a>
+            </li>
+            <li class="list-group-item position-relative">
+                <a href="{% url 'profiles:food_item-list' %}"
+                   class="stretched-link">
+                    Food Items
+                </a>
+            </li>
+        </ul>
+    </div>
+
 {% endblock %}

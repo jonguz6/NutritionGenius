@@ -4,24 +4,44 @@
     <title>{{ object.ingredient }} Detail View</title>
 {% endblock %}
 {% block content %}
-    <div class="titles">
-        <h1>{{ object | to_verbose_name | capfirst }}</h1>
-        <h2>{{ object.user }}</h2>
-    </div>
-    <div class="details">
-        <p>Ingredient {{ object.food.ingredient }}</p>
-        <p>Quantity {{ object.food.quantity }}</p>
-    </div>
-    <div class="buttons food-item">
-        <input type="button"
-               class="button button-update"
-               value="Update"
-               onclick="location.href=
-                       '{% url 'profiles:food_storage-update' pk=object.pk %}'">
-        <input type="button"
-               class="button button-delete"
-               value="Delete"
-               onclick="location.href=
-                       '{% url 'profiles:food_storage-delete' pk=object.pk %}'">
+    <div class="content-fluid">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 align-self-center text-center">
+                <h1 class="display-1">{{ object | to_verbose_name | capfirst }}</h1>
+                <h2 class="display-5">{{ object.user }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3 padding">
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="row" class=" content-justify-right ">
+                            <div class="d-flex justify-content-end"><span class="badge bg-primary">Ingredient</span>
+                            </div>
+                        </th>
+                        <td>
+                            <div class="d-flex justify-content-start">{{ object.food.ingredient }}</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class=" content-justify-right ">
+                            <div class="d-flex justify-content-end"><span class="badge bg-primary">Quantity</span>
+                            </div>
+                        </th>
+                        <td>
+                            <div class="d-flex justify-content-start">{{ object.food.quantity }}</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6 offset-md-3 text-center">
+                <div class="btn-group">
+                    <a type="submit" class="btn btn-success"
+                       href="{% url 'profiles:food_storage-update' pk=object.pk %}">Update</a>
+                    <a type="submit" class="btn btn-danger"
+                       href="{% url 'profiles:food_storage-delete' pk=object.pk %}">Delete</a>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

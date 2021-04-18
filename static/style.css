@@ -16,6 +16,7 @@ html, body {
 }
 .nav-link {
     font-size: 1.1em !important;
+    font-weight: bolder;
 }
 
 img.img-fluid {
@@ -32,7 +33,10 @@ a:hover, a:active {
 a:focus {
     color: darkgray;
 }
-
+/*--- Table --*/
+table {
+    table-layout: fixed;
+}
 /*--- Carousel --*/
 .carousel-inner img {
     height: 32rem;
@@ -95,10 +99,17 @@ a:focus {
 /*--- Forms --*/
 input {
     color: black;
+    font-weight: bolder;
     border: 1px solid #dca70f;
+    background-color: #FFC107;
+    width: 25vw;
+    text-align: center;
 }
+
 select {
-    max-width: 50vw;
+    width: 25vw;
+    text-align: center;
+    background-color: #FFC107;
 }
 /*--- Jumbotron --*/
 .jumbotron {

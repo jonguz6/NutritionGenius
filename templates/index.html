@@ -3,13 +3,13 @@
     <title>Main Index</title>
 {% endblock %}
 {% block content %}
-    <div class="index main-index">
-        <ul>
-            <li>
-                <a href="{% url 'food_storage:index' %}">Food Storage</a>
+    <div class="col-md-6 offset-md-3">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item position-relative">
+                <a class="stretched-link" href="{% url 'food_storage:index' %}">Food Storage</a>
             </li>
-            <li>
-                <a href="{% url 'profiles:index' %}">Profiles</a>
+            <li class="list-group-item position-relative">
+                <a class="stretched-link" href="{% url 'profiles:index' %}">Profiles</a>
             </li>
         </ul>
     </div>

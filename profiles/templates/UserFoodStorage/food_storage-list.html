@@ -1,25 +1,23 @@
 {% extends "base.html" %}
 {% load project_tags %} }}
 {% block title %}
-    <title>{{ view | to_model_verbose_name }} List</title>
+    <title>{{ view | to_model_verbose_name | capfirst }} List</title>
 {% endblock %}
 {% block content %}
-    <div class="object-list food-item">
-        <ul>
+    <div class="col-md-4 offset-md-4 text-center">
+        <ul class="list-group list-group-flush">
             {% for object in object_list %}
-                <li>
-                    <a href="{% url 'profiles:food_storage-detail' pk=object.pk %}">
+                <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start position-relative">
+                    <a class="stretched-link" href="{% url 'profiles:food_storage-detail' pk=object.pk %}">
                         {{ object.user }} - {{ object.food }}
                     </a>
-                    {{ object.date }}
+                    <span class="badge bg-primary rounded-pill">{{ object.date }}</span>
                 </li>
             {% endfor %}
         </ul>
     </div>
-    <div class="buttons food-item">
-        <input type="button"
-               class="button button-create"
-               value="Create New"
-               onclick="location.href='{% url 'profiles:food_storage-create'%}'">
+    <div class="col-md-6 offset-md-3 text-center">
+        <a type="button" class="btn btn-primary"
+           href="{% url 'profiles:food_storage-create' %}">Create new {{ object.name }}</a>
     </div>
 {% endblock %}
