@@ -8,7 +8,7 @@ from food_storage import models
 
 
 class FoodCategoryCreateView(PermissionRequiredMixin, views.CreateView):
-    permission_required = ('food_storage.add_food_category', )
+    permission_required = ('food_storage.add_foodcategory', )
     model = models.FoodCategory
     fields = "__all__"
     template_name = "FoodCategory/category-create.html"
@@ -16,19 +16,19 @@ class FoodCategoryCreateView(PermissionRequiredMixin, views.CreateView):
 
 
 class FoodCategoryListView(PermissionRequiredMixin, views.ListView):
-    permission_required = ('food_storage.view_food_category', )
+    permission_required = ('food_storage.view_foodcategory', )
     model = models.FoodCategory
     template_name = "FoodCategory/category-list.html"
 
 
 class FoodCategoryDetailView(PermissionRequiredMixin, views.DetailView):
-    permission_required = ('food_storage.view_food_category', )
+    permission_required = ('food_storage.view_foodcategory', )
     model = models.FoodCategory
     template_name = "FoodCategory/category-detail.html"
 
 
 class FoodCategoryUpdateView(PermissionRequiredMixin, views.UpdateView):
-    permission_required = ('food_storage.update_food_category', )
+    permission_required = ('food_storage.change_foodcategory', )
     model = models.FoodCategory
     fields = "__all__"
     template_name = "FoodCategory/category-update.html"
@@ -36,14 +36,14 @@ class FoodCategoryUpdateView(PermissionRequiredMixin, views.UpdateView):
 
 
 class FoodCategoryDeleteView(PermissionRequiredMixin, views.DeleteView):
-    permission_required = ('food_storage.delete_food_category', )
+    permission_required = ('food_storage.delete_foodcategory', )
     model = models.FoodCategory
     template_name = "FoodCategory/category-delete.html"
     success_url = reverse_lazy('food_storage:category-list')
 
 
 class FoodIngredientCreateView(PermissionRequiredMixin, views.CreateView):
-    permission_required = ('food_storage.add_food_ingredient', )
+    permission_required = ('food_storage.add_foodingredient', )
     model = models.FoodIngredient
     fields = "__all__"
     template_name = "FoodIngredient/ingredient-create.html"
@@ -66,7 +66,7 @@ class FoodIngredientCreateView(PermissionRequiredMixin, views.CreateView):
 
 
 class FoodIngredientListView(PermissionRequiredMixin, views.ListView):
-    permission_required = ('food_storage.view_food_ingredient', )
+    permission_required = ('food_storage.view_foodingredient', )
     model = models.FoodIngredient
     template_name = "FoodIngredient/ingredient-list.html"
 
@@ -78,13 +78,13 @@ class FoodIngredientListView(PermissionRequiredMixin, views.ListView):
 
 
 class FoodIngredientDetailView(PermissionRequiredMixin, views.DetailView):
-    permission_required = ('food_storage.view_food_ingredient', )
+    permission_required = ('food_storage.view_foodingredient', )
     model = models.FoodIngredient
     template_name = "FoodIngredient/ingredient-detail.html"
 
 
 class FoodIngredientUpdateView(PermissionRequiredMixin, views.UpdateView):
-    permission_required = ('food_storage.update_food_ingredient', )
+    permission_required = ('food_storage.change_foodingredient', )
     model = models.FoodIngredient
     fields = "__all__"
     template_name = "FoodIngredient/ingredient-update.html"
@@ -92,13 +92,13 @@ class FoodIngredientUpdateView(PermissionRequiredMixin, views.UpdateView):
 
 
 class FoodIngredientDeleteView(PermissionRequiredMixin, views.DeleteView):
-    permission_required = ('food_storage.delete_food_ingredient', )
+    permission_required = ('food_storage.delete_foodingredient', )
     model = models.FoodIngredient
     template_name = "FoodIngredient/ingredient-delete.html"
     success_url = reverse_lazy('food_storage:ingredient-list')
 
 
-@permission_required('food_storage.view_food_ingredient')
+@permission_required('food_storage.view_foodingredient')
 def index(request):
     return render(
         request, template_name="food_storage-index.html"
