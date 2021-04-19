@@ -8,7 +8,7 @@ https://nutrition-genius.herokuapp.com/about/
 You can use one of these login:password to authenticate:
 * joseph_wozwiak:joelovesamy1234
 * james_kowalski:jameski1234
-* anne_frane:anneiscool420
+* anne_frane:anneiscool420 (Anne can view more data than other users, like food categories, ingredients, profiles and user storages)
 
 # Features
 1. Users can edit thier weight and height
