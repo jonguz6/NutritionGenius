@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 secrets_django.py
 .idea/
-/static
+/static_root
 /secrets.env
