@@ -18,6 +18,9 @@ html, body {
     font-size: 1.1em !important;
     font-weight: bolder;
 }
+.navbar-brand img {
+    height: 3rem;
+}
 
 img.img-fluid {
     max-height: 80vh

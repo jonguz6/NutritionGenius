@@ -22,13 +22,13 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-light bg-warning sticky-top">
-    <div class="content-fluid">
-        <a href="{% url 'index' %}" class="navbar-brand">NutritionGenius</a>
+    <div class="container-fluid">
+        <a href="{% url 'index' %}" class="navbar-brand"><img src="{% static 'logo.svg' %}" alt="logo"> NutritionGenius</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav">
                 {% if request.user.is_authenticated %}
                     <li class="nav-item active ">
                         <a href="{% url 'profiles:user-profile' %}" class="nav-link">Profile</a>
