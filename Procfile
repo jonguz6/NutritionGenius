@@ -1,3 +1,3 @@
 web: gunicorn nutritiongenius.wsgi
-wegL gunicorn food_storage:app --preload
-wegL gunicorn profiles:app --preload
+web: gunicorn food_storage:app --preload
+web: gunicorn profiles:app --preload
