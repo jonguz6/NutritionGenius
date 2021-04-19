@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
+import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -87,6 +88,7 @@ WSGI_APPLICATION = 'NutritionGenius.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+DATABASES = {}
 
 if DEBUG:
     DATABASES = {
@@ -96,17 +98,7 @@ if DEBUG:
         }
     }
 else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'd42t8p7jkj2ij5',
-            'USER': get_env_value('PGUSER'),
-            'PASSWORD': get_env_value('PGPASSWORD'),
-            'HOST': get_env_value('DATABASE_URL'),
-            'PORT': '5432',
-        }
-    }
-
+    DATABASES['default'] = dj_database_url.config(default=get_env_value('DATABASE_URL'))
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
