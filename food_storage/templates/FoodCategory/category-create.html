@@ -4,11 +4,11 @@
     <title>Create {{ view | to_model_verbose_name | capfirst }}</title>
 {% endblock %}
 {% block content %}
-    <div class="content text-center">
+    <div class="container-fluid text-center">
         <div class="col-md-8 offset-md-2 padding d-flex justify-content-center">
             <form action="" method="POST">
                 {% csrf_token %}
-                <p class="lead pt-3">{{ form.name.label }}</p>
+                <p class="lead pt-3 fw-bold">{{ form.name.label }}</p>
                 {{ form.name }}
                 <div class="col-md-8 pt-5">
                     <input type="submit" class="btn btn-primary" value="Create">

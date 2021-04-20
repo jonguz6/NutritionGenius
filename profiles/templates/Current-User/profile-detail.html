@@ -4,45 +4,44 @@
     <title>{{ request.user.profile }} - Profile</title>
 {% endblock %}
 {% block content %}
-    <div class="content-fluid">
-        <div class="col-md-6 offset-md-3 align-self-center text-center">
+    <div class="container-fluid text-center">
+        <div class="col-md-6 offset-md-3">
             <h1 class="display-2">{{ object.user.first_name }} {{ object.user.last_name }}</h1>
         </div>
         <div class="row">
-            <div class="col-md-4 offset-md-4 align-self-center">
+            <div class="col-sm-6 offset-sm-3 align-self-center">
                 <table class="table table-borderless">
                     <tr>
                         <td>
                             <div class="d-flex justify-content-end"><span class="badge bg-primary">Weight</span>
                             </div>
                         </td>
-                        <td class="content-justify-right">{{ object.weight | floatformat:-1 }} kg</td>
+                        <td class="container-fluid-justify-right">{{ object.weight | floatformat:-1 }} kg</td>
                         <td>
                             <div class="d-flex justify-content-end"><span class="badge bg-primary">Height</span>
                             </div>
                         </td>
-                        <td class="content-justify-left">{{ object.height | floatformat:-1 }} cm</td>
+                        <td class="container-fluid-justify-left">{{ object.height | floatformat:-1 }} cm</td>
                     </tr>
                 </table>
             </div>
         </div>
         <div class="row text-center ">
-            <div class="col-md-5 mx-auto content-fluid my-2 rounded bg-primary">
+            <div class="col-md-10 col-lg-8 offset-lg-2 col-xl-6 offset-lg-3 mx-auto container-fluid my-2 rounded bg-primary">
                 {% if object.calorie_goal is str %}
                     <div class="row">
-                        <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories
-                            today: {{ object.calories_today }} kcal
+                        <div class="col-10 col-sm-5 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories today: <wbr>{{ object.calories_today }} kcal
                         </div>
-                        <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">{{ object.calories_left_in_goal }}</div>
+                        <div class="col-10 col-sm-5 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">{{ object.calories_left_in_goal }}</div>
                     </div>
                 {% else %}
                     <div class="row">
-                        <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories today: <strong>{{ object.calories_today }} / {{ object.calorie_goal }}</strong></div>
+                        <div class="col-10 col-sm-5 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories today: <strong><span style="white-space: nowrap;">{{ object.calories_today }} / {{ object.calorie_goal }}</span></strong></div>
                         {% with object.calories_left_in_goal as calories_left %}
                             {% if calories_left >= 0 %}
-                                <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories left in goal: <strong>{{ calories_left | floatformat:-1 }}</strong></div>
+                                <div class="col-10 col-sm-5 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories left in goal: <strong>{{ calories_left | floatformat:-1 }}</strong></div>
                             {% else %}
-                                <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories over goal: <strong>{{ calories_left | abs | floatformat:-1 }}</strong></div>
+                                <div class="col-10 col-sm-5 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories over goal: <strong>{{ calories_left | abs | floatformat:-1 }}</strong></div>
                             {% endif %}
                             </div>
                             <div class="progress">
@@ -66,11 +65,11 @@
                 {% endif %}
         </div>
         <div class="row text-center">
-            <div class="col-md-5 my-2 mx-auto rounded bg-primary">
+            <div class="col-md-10 col-lg-8 offset-lg-2 col-xl-6 offset-lg-3 my-2 mx-auto rounded bg-primary">
                 <div class="row">
-                    <div class="col-sm-4 col-lg-5 ms-auto me-1 my-2 bg-light rounded">Carbs today: <strong>{{ object.carbs_today |  floatformat:-1 }}</strong></div>
-                    <div class="col-sm-4 col-lg-5 ms-1 me-auto me-lg-auto my-2 bg-light rounded">Fats today: <strong>{{ object.fats_today | floatformat:-1 }}</strong></div>
-                    <div class="col-sm-4 col-lg-5 mx-auto my-2 offset-lg-3 bg-light rounded">Protein today: <strong>{{ object.protein_today |floatformat:-1 }}</strong></div>
+                    <div class="col-10 col-sm-3 col-lg-5 mx-auto my-2 bg-light rounded">Carbs today: <strong>{{ object.carbs_today |  floatformat:-1 }}</strong></div>
+                    <div class="col-10 col-sm-3 col-lg-5 mx-auto my-2 bg-light rounded">Fats today: <strong>{{ object.fats_today | floatformat:-1 }}</strong></div>
+                    <div class="col-10 col-sm-3 col-lg-5 mx-auto my-2 offset-lg-3 bg-light rounded">Protein today: <strong>{{ object.protein_today |floatformat:-1 }}</strong></div>
                 </div>
 
                 <div class="progress">

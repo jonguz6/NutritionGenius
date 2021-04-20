@@ -4,8 +4,8 @@
     <title>{{ object.name }} Detail View</title>
 {% endblock %}
 {% block content %}
-    <div class="content-fluid">
-        <div class="col-md-6 offset-md-3 align-self-center text-center">
+    <div class="container-fluid text-center">
+        <div class="col-md-6 offset-md-3">
             <h1 class="display-2">{{ object.user.first_name }} {{ object.user.last_name }}</h1>
         </div>
         <div class="row">
@@ -16,18 +16,18 @@
                             <div class="d-flex justify-content-end"><span class="badge bg-primary">Weight</span>
                             </div>
                         </td>
-                        <td class="content-justify-right">{{ object.weight }} kg</td>
+                        <td class="container-fluid-justify-right">{{ object.weight }} kg</td>
                         <td>
                             <div class="d-flex justify-content-end"><span class="badge bg-primary">Height</span>
                             </div>
                         </td>
-                        <td class="content-justify-left">{{ object.height }} cm</td>
+                        <td class="container-fluid-justify-left">{{ object.height }} cm</td>
                     </tr>
                 </table>
             </div>
         </div>
         <div class="row text-center ">
-            <div class="col-md-5 mx-auto content-fluid my-2 rounded bg-primary">
+            <div class="col-md-5 mx-auto container-fluid my-2 rounded bg-primary">
                 {% if object.calorie_goal is str %}
                     <div class="row">
                         <div class="col-sm-6 col-lg-7 offset-lg-3 mx-auto my-2 bg-light rounded">Calories
