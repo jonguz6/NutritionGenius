@@ -4,7 +4,7 @@
     <title>Create {{ view | to_model_verbose_name | capfirst }}</title>
 {% endblock %}
 {% block content %}
-    <div class="content text-center">
+    <div class="container-fluid text-center">
         <div class="col-md-8 offset-md-2 padding d-flex justify-content-center">
             <form method="post" class="create-form food-item">
                 {% csrf_token %}

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="content-fluid text-center welcome padding">
+    <div class="container-fluid text-center welcome padding">
         {% if form.errors %}
             <div class="col-md-6">
                 <div class="row">
@@ -22,32 +22,12 @@
                 {% endif %}
             </div>
         {% endif %}
-    <div class="welcome padding content-fluid">
+    <div class="welcome padding container-fluid">
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
-            <table class="table table-borderless d-flux justify-content-center">
-                <tr>
-                    <th scope="row" class=" content-justify-right ">
-                        <div class="d-flex justify-content-end"><span
-                                class="badge bg-primary">{{ form.username.label }}</span>
-                        </div>
-                    </th>
-                    <td>
-                        <div class="d-flex justify-content-start">{{ form.username }}</div>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class=" content-justify-right ">
-                        <div class="d-flex justify-content-end"><span
-                                class="badge bg-primary">{{ form.password.label }}</span>
-                        </div>
-                    </th>
-                    <td>
-                        <div class="d-flex justify-content-start">{{ form.password }}</div>
-                    </td>
-                </tr>
-            </table>
-            <div class="text-center padding">
+            <p class="lead pt-3 fw-bold">{{ form.username.label }}</p>{{ form.username }}
+            <p class="lead pt-3 fw-bold">{{ form.password.label }}</p>{{ form.password }}
+            <div class="text-center padding pt-5">
                 <input type="submit" value="Login" class="btn btn-primary"/>
                 <input type="hidden" name="next" value="{{ next }}"/>
             </div>
@@ -55,7 +35,5 @@
         <div class="row">
             <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
         </div>
-    </div>
-
     </div>
 {% endblock %}

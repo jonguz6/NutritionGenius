@@ -3,36 +3,26 @@
     <title>Add new food for today</title>
 {% endblock %}
 {% block content %}
-    <div class="content text-center">
+    <div class="container-fluid text-center">
         <div class="col-md-6 offset-md-3 mx-auto padding">
             <form action="" method="POST">
                 {% csrf_token %}
                 {{ formset1.management_form }}
-                <table class="table table-borderless">
+                <ul class="list-group list-group-flush">
                     {% for form in formset1 %}
-                        <tr>
-                            <th scope="row" class=" content-justify-right ">
-                                <div class="d-flex justify-content-end"><span
-                                        class="badge bg-primary">{{ form.ingredient.label }}</span>
-                                </div>
-                            </th>
-                            <td>
-                                <div class="d-flex justify-content-start">{{ form.ingredient }}</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class=" content-justify-right ">
-                                <div class="d-flex justify-content-end"><span
-                                        class="badge bg-primary">{{ form.quantity.label }}</span>
-                                </div>
-                            </th>
-                            <td>
-                                <div class="d-flex justify-content-start">{{ form.quantity }}</div>
-                            </td>
-                        </tr>
+                        <li class="list-group-item">
+                            <div>
+                                <p class="lead pt-3 fw-bold">{{ form.ingredient.label }}</p>
+                                {{ form.ingredient }}
+                            </div>
+                            <div class="pb-5">
+                                <p class="lead pt-3 fw-bold">{{ form.quantity.label }}</p>
+                                {{ form.quantity }}
+                            </div>
+                        </li>
                     {% endfor %}
-                </table>
-                <div class="btn-group">
+                </ul>
+                <div class="btn-group pt-5">
                     <input type="submit" class="btn btn-primary" value="Submit">
                     <a type="button" class="btn btn-outline-secondary"
                        href="{% url 'profiles:user-profile' %}">
