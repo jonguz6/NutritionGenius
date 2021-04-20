@@ -13,54 +13,42 @@
         </div>
         <div class="row">
             <div class="col-md-6 offset-md-3 padding">
-                <table class="table table-borderless">
-                    <tr>
-                        <th scope="row" class=" content-justify-right ">
-                            <div class="d-flex justify-content-end"><span class="badge bg-primary">Food Group</span>
-                            </div>
-                        </th>
-                        <td>
-                            <div class="d-flex justify-content-start">{{ object.get_food_group_display }}</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class=" content-justify-right ">
-                            <div class="d-flex justify-content-end"><span class="badge bg-primary">Carbohydrates</span>
-                            </div>
-                        </th>
-                        <td>
-                            <div class="d-flex justify-content-start">{{ object.carbohydrates }}</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class=" content-justify-right ">
-                            <div class="d-flex justify-content-end"><span class="badge bg-primary">Fat</span>
-                            </div>
-                        </th>
-                        <td>
-                            <div class="d-flex justify-content-start">{{ object.fats }}</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class=" content-justify-right ">
-                            <div class="d-flex justify-content-end"><span class="badge bg-primary">Protein</span>
-                            </div>
-                        </th>
-                        <td>
-                            <div class="d-flex justify-content-start">{{ object.protein }}</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class=" content-justify-right ">
-                            <div class="d-flex justify-content-end"><span
-                                    class="badge bg-primary">Standard portion</span>
-                            </div>
-                        </th>
-                        <td>
-                            <div class="d-flex justify-content-start">{{ object.standard_portion }}</div>
-                        </td>
-                    </tr>
-                </table>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <p class="lead pt-3 fw-bold">Category</p>
+                        {{ object.category }}</li>
+                    <li class='list-group-item'>
+                        <p class="lead pt-3 fw-bold">Food Group</p>
+                        {{ object.get_food_group_display }}
+                    </li>
+                    <li class='list-group-item'>
+                        <p class="lead pt-3 fw-bold">Calories<br>
+                            <span class="fs-6 fst-italic fw-light">per 100 g</span>
+                        </p>
+                        {{ object.calories }}
+                    </li>
+                    <li class='list-group-item'>
+                        <p class="lead pt-3 fw-bold">Carbohydrates<br>
+                            <span class="fs-6 fst-italic fw-light">per 100 g</span>
+                        </p>
+                        {{ object.carbohydrates }}
+                    </li>
+                    <li class='list-group-item'>
+                        <p class="lead pt-3 fw-bold">Fat<br>
+                            <span class="fs-6 fst-italic fw-light">per 100 g</span>
+                        </p>
+                        {{ object.fats }}
+                    </li>
+                    <li class='list-group-item'>
+                        <p class="lead pt-3 fw-bold">Protein<br>
+                            <span class="fs-6 fst-italic fw-light">per 100 g</span>
+                        </p>
+                        {{ object.protein }}</li>
+                    <li class='list-group-item'>
+                        <p class="lead pt-3 fw-bold">Standard portion</p>
+                        {{ object.standard_portion }}
+                    </li>
+                </ul>
             </div>
             <div class="col-md-6 offset-md-3 text-center">
                 <div class="btn-group">

@@ -13,35 +13,18 @@
         </div>
         <div class="row">
             <div class="col-md-6 offset-md-3 padding">
-                <table class="table table-borderless">
-                    <tr>
-                        <th scope="row" class=" content-justify-right ">
-                            <div class="d-flex justify-content-end"><span class="badge bg-primary">Ingredient</span>
-                            </div>
-                        </th>
-                        <td>
-                            <div class="d-flex justify-content-start">{{ object.food.ingredient }}</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class=" content-justify-right ">
-                            <div class="d-flex justify-content-end"><span class="badge bg-primary">Quantity</span>
-                            </div>
-                        </th>
-                        <td>
-                            <div class="d-flex justify-content-start">{{ object.food.quantity }}</div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-md-6 offset-md-3 text-center">
-                <div class="btn-group">
-                    <a type="submit" class="btn btn-success"
-                       href="{% url 'profiles:food_storage-update' pk=object.pk %}">Update</a>
-                    <a type="submit" class="btn btn-danger"
-                       href="{% url 'profiles:food_storage-delete' pk=object.pk %}">Delete</a>
-                </div>
+                <p class="lead pt-3 fw-bold"> class="badge bg-primary">Ingredient</p>{{ object.food.ingredient }}
+                <p class="lead pt-3 fw-bold">Quantity</p>{{ object.food.quantity }}
             </div>
         </div>
+        <div class="col-md-6 offset-md-3 text-center">
+            <div class="btn-group">
+                <a type="submit" class="btn btn-success"
+                   href="{% url 'profiles:food_storage-update' pk=object.pk %}">Update</a>
+                <a type="submit" class="btn btn-danger"
+                   href="{% url 'profiles:food_storage-delete' pk=object.pk %}">Delete</a>
+            </div>
+        </div>
+    </div>
     </div>
 {% endblock %}

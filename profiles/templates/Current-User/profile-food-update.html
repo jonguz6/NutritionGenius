@@ -8,19 +8,12 @@
         <div class="col-md-6 offset-md-3 mx-auto d-flex justify-content-center padding">
             <form action="" method="POST">
                 {% csrf_token %}
-                <table class="table table-borderless">
-                    <tr>
-                        <th scope="row" class=" content-justify-right ">
-                            <div class="d-flex justify-content-end"><span
-                                    class="badge bg-primary">{{ form.food.label }}</span>
-                            </div>
-                        </th>
-                        <td>
-                            <div class="d-flex justify-content-start">{{ form.food }}</div>
-                        </td>
-                    </tr>
-                </table>
-                <div class="buttons food-item">
+                <div>
+                    <p class="lead pt-3 fw-bold">{{ form.food.label }}</p>
+                    {{ form.food }}
+                </div>
+
+                <div class="buttons food-item pt-5">
                     <input type="submit" class="btn btn-primary" value="Update">
                 </div>
             </form>

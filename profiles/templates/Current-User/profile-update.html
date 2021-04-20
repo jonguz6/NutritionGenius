@@ -5,45 +5,19 @@
 {% endblock %}
 {% block content %}
     <div class="content text-center">
-        <div class="col-md-6 offset-md-3 mx-auto padding">
+    <div class="row"></div>
+        <div class="col-md-6 offset-md-3 padding">
             <form action="" method="POST">
                 {% csrf_token %}
-                <table class="table table-borderless">
-                    <tr>
-                        <th scope="row" class=" content-justify-right ">
-                            <div class="d-flex justify-content-end"><span
-                                    class="badge bg-primary">{{ form.weight.label }} (kg)</span>
-                            </div>
-                        </th>
-                        <td>
-                            <div class="d-flex justify-content-start">{{ form.weight }}</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class=" content-justify-right ">
-                            <div class="d-flex justify-content-end"><span
-                                    class="badge bg-primary">{{ form.height.label }} (cm)</span>
-                            </div>
-                        </th>
-                        <td>
-                            <div class="d-flex justify-content-start">{{ form.height }}</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class=" content-justify-right ">
-                            <div class="d-flex justify-content-end"><span
-                                    class="badge bg-primary">{{ form.calorie_goal.label }} (kcal)</span>
-                            </div>
-                        </th>
-                        <td>
-                            <div class="d-flex justify-content-start">{{ form.calorie_goal }}</div>
-                        </td>
-                    </tr>
-                </table>
-                <div class="col-md-6 offset-md-3">
+                    <p class="lead pt-3 fw-bold">{{ form.weight.label }} (kg)</p>{{ form.weight }}
+                    <p class="lead pt-3 fw-bold">{{ form.height.label }} (cm)</p>{{ form.height }}
+                    <p class="lead pt-3 fw-bold">{{ form.calorie_goal.label }} (kcal)</p>{{ form.calorie_goal }}
+
+                <div class="col mx-auto text-center pt-5">
                     <input type="submit" class="btn btn-primary" value="Update">
                 </div>
             </form>
         </div>
+    </div>
     </div>
 {% endblock %}
