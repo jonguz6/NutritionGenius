@@ -308,9 +308,11 @@ class SelfProfileViewTest(TestCase):
         self.assertContains(response_get, f'{self.profile.weight} kg')
         self.assertContains(response_get, f'{self.profile.height}')
         self.assertContains(response_get,
-                            f'Calories today: <strong>{self.profile.calories_today} / {self.profile.calorie_goal}</strong>')
-        self.assertContains(response_get, f'Calories left in goal: <strong>{round(self.profile.calories_left_in_goal)}</strong>')
-        self.assertContains(response_get, f'Carbs today: <strong>{round(self.profile.carbs_today, 1)}</strong>')
+                            f'Calories today: <strong><span style="white-space: nowrap;">{self.profile.calories_today} / {self.profile.calorie_goal}</span></strong>')
+        self.assertContains(response_get,
+                            f'Calories left in goal: <strong>{round(self.profile.calories_left_in_goal)}</strong>')
+        self.assertContains(response_get,
+                            f'Carbs today: <strong>{round(self.profile.carbs_today, 1)}</strong>')
         self.assertContains(response_get, f'Fats today: <strong>{round(self.profile.fats_today, 1)}</strong>')
         self.assertContains(response_get, f'Protein today: <strong>{round(self.profile.protein_today, 1)}</strong>')
 
