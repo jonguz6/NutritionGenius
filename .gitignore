@@ -131,3 +131,4 @@ secrets_django.py
 .idea/
 /static_root
 /secrets.env
+/static/admin
