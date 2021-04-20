@@ -10,6 +10,10 @@ You can use one of these login:password to authenticate:
 * james_kowalski:jameski1234
 * anne_frane:anneiscool420 (Anne can view more data than other users, like food categories, ingredients, profiles and user storages)
 
+Editor account:
+* josephine_strawberry:josie1000
+This account can add, update and delete items to the food_storage app, eg. food categories, ingredients
+
 # Features
 1. Users can edit thier weight and height
 2. Users can set a calorie goal
