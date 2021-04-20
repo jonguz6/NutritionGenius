@@ -35,12 +35,12 @@
                     <li class="nav-item active ">
                         <a href="{% url 'profiles:user-profile' %}" class="nav-link">Profile</a>
                     </li>
-                    {% if perms.food_storage.view_food_ingredient %}
+                    {% if perms.food_storage.view_foodingredient %}
                         <li class="nav-item">
                             <a href="{% url 'food_storage:index' %}" class="nav-link">Food Storage</a>
                         </li>
                     {% endif %}
-                    {% if perms.profile.view_profile %}
+                    {% if perms.profile.viewprofile %}
                         <li class="nav-item">
                             <a href="{% url 'profiles:index' %}" class="nav-link">Profiles</a>
                         </li>
@@ -94,7 +94,7 @@
                 <p><a href="{% url 'index' %}">Home</a></p>
                 <p><a href="{% url 'about' %}">About</a></p>
             </div>
-            {% with perms.food_storage.view_food_ingredient as p_food and perms.profile.view_profile as p_profile %}
+            {% with perms.food_storage.view_foodingredient as p_food and perms.profile.viewprofile as p_profile %}
                 {% if p_food or p_profile %}
                     <div class="col-md-4">
                         <hr class="light">
