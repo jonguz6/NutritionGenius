@@ -91,33 +91,6 @@ class FoodItemDeleteView(PermissionRequiredMixin, views.DeleteView):
     success_url = reverse_lazy('profiles:food_item-list')
 
 
-class UserFoodStorageCreateView(PermissionRequiredMixin, views.CreateView):
-    permission_required = ('profiles.add_fooditem', )
-    model = models.FoodItem
-    form_class = forms.FoodItem
-    template_name = "FoodItem/food_storage-create.html"
-    success_url = reverse_lazy('profiles:food_storage-list')
-
-    def get_form_kwargs(self):
-        form_kwargs = super().get_form_kwargs()
-
-        profile_id = self.kwargs.get('prof_id')
-        if profile_id:
-            profile = models.Profile.objects.get(pk=profile_id)
-            form_kwargs['initial'].update({'user': profile})
-
-        return form_kwargs
-
-    def post(self, request, *args, **kwargs):
-        post = request.POST.copy()
-        if post.get('user') is None:
-            prof_id = self.kwargs.get('prof_id')
-            profile = models.Profile.objects.get(pk=prof_id)
-            post['user'] = profile.user
-        request.POST = post
-        return super().post(request, *args, **kwargs)
-
-
 class FoodStorageForUserListView(PermissionRequiredMixin, views.ListView):
     permission_required = ('profiles.view_fooditem', )
     model = models.FoodItem
