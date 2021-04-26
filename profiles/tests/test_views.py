@@ -1,21 +1,14 @@
 from datetime import date
 
-from django.contrib.auth.models import User, Group, Permission
-from django.test import TestCase
+from django.contrib.auth.models import User, Permission
+from django.test import TestCase, TransactionTestCase
 from django.urls import reverse
 
-from food_storage.models import FoodCategory
-from profiles.models import FoodItem, Profile, UserFoodStorage
+from profiles.models import FoodItem, Profile
 from profiles.views import index, FoodItemCreateView, FoodItemListView, FoodItemUpdateView, FoodItemDeleteView, \
-    ProfileListView, ProfileDetailView, ProfileUpdateView, ProfileDeleteView, UserFoodStorageCreateView, \
-    UserFoodStorageListView, UserFoodStorageUpdateView, UserFoodStorageDeleteView, SelfProfileDetailView, \
-    user_food_storage_create_view, FoodStorageForCurrentUserListView, TodayFoodStorageForCurrentUserListView
-
+    ProfileListView, ProfileDetailView, ProfileUpdateView, ProfileDeleteView, SelfProfileDetailView, \
+    TodayFoodStorageForCurrentUserListView, FoodStorageForCurrentUserListView, user_food_storage_create_view
 from profiles.tests.test_models import create_vegetable, create_food_item
-
-
-def create_storage(user, item):
-    return UserFoodStorage.objects.create(user=user, food=item)
 
 
 class IndexViewTest(TestCase):
@@ -58,7 +51,8 @@ class FoodItemViewTest(TestCase):
                          FoodItemCreateView.as_view().__name__)
         response_post = self.client.post(view,
                                          {'ingredient': self.carrot_item.ingredient.id,
-                                          'quantity': 1})
+                                          'quantity': 1,
+                                          'profile': self.user_def.profile.pk})
         self.assertEqual(response_post.status_code, 302)
 
         self.assertEqual(self.carrot_item.ingredient, self.carrot)
@@ -88,7 +82,8 @@ class FoodItemViewTest(TestCase):
 
         response_post = self.client.post(view,
                                          {'ingredient': self.carrot_item.ingredient.id,
-                                          'quantity': 2})
+                                          'quantity': 2,
+                                          'profile': self.user_def.profile.pk})
         self.assertEqual(response_post.status_code, 302)
         self.carrot_item.refresh_from_db()
         self.assertEqual(self.carrot_item.ingredient, self.carrot)
@@ -191,98 +186,7 @@ class ProfileViewTest(TestCase):
                           Profile.objects.get, user=self.user_def)
 
 
-class UserStorageViewTest(TestCase):
-    def setUp(self) -> None:
-        permissions = Permission.objects.filter(name__endswith='user food storage')
-        self.user_def = User.objects.create_user(username='setup')
-        self.user_def.set_password('password')
-        self.user_def.user_permissions.set(list(permissions))
-        self.user_def.save()
-        self.client.login(username='setup', password='password')
-        self.carrot_it = lambda: create_food_item('carrot')
-        self.carrot_item = self.carrot_it()
-
-    def test_food_storage_create(self):
-        view = reverse('profiles:food_storage-create')
-        response_get = self.client.get(view)
-        self.assertEqual(response_get.status_code, 200)
-        self.assertTemplateUsed(response_get, "UserFoodStorage/food_storage-create.html")
-        self.assertEqual(response_get.resolver_match.func.__name__,
-                         UserFoodStorageCreateView.as_view().__name__)
-        response_post = self.client.post(view,
-                                         {'user': self.user_def.profile.pk,
-                                          'food': self.carrot_item.pk})
-        self.assertEqual(response_post.status_code, 302)
-
-        storage = UserFoodStorage.objects.get(user=self.user_def.profile,
-                                              food=self.carrot_item,
-                                              date=date.today())
-        self.assertEqual(storage.user, self.user_def.profile)
-
-    def test_food_storage_create_with_profile(self):
-        view = reverse('profiles:food_storage-w-prof-create', args=[self.user_def.profile.pk])
-        response_get = self.client.get(view)
-        self.assertEqual(response_get.status_code, 200)
-        self.assertTemplateUsed(response_get, "UserFoodStorage/food_storage-create.html")
-        self.assertEqual(response_get.resolver_match.func.__name__,
-                         UserFoodStorageCreateView.as_view().__name__)
-        response_post = self.client.post(view,
-                                         {'food': self.carrot_item.pk})
-        self.assertEqual(response_post.status_code, 302)
-
-        storage = UserFoodStorage.objects.get(user=self.user_def.profile,
-                                              food=self.carrot_item,
-                                              date=date.today())
-        self.assertEqual(storage.user, self.user_def.profile)
-
-    def test_food_storage_list(self):
-        view = reverse('profiles:food_storage-list')
-        response = self.client.get(view)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'UserFoodStorage/food_storage-list.html')
-
-        self.assertEqual(response.resolver_match.func.__name__,
-                         UserFoodStorageListView.as_view().__name__)
-        self.assertQuerysetEqual(response.context.get('object_list'),
-                                 UserFoodStorage.objects.all(),
-                                 transform=lambda x: x)
-
-    def test_food_storage_update(self):
-        storage = create_storage(self.user_def.profile, self.carrot_item)
-        view = reverse('profiles:food_storage-update', args=[storage.pk])
-        response_get = self.client.get(view)
-        self.assertEqual(response_get.status_code, 200)
-        self.assertTemplateUsed(response_get, 'UserFoodStorage/food_storage-update.html')
-
-        self.assertEqual(response_get.resolver_match.func.__name__,
-                         UserFoodStorageUpdateView.as_view().__name__)
-        potato = create_food_item('potato')
-
-        response_post = self.client.post(view,
-                                         {'user': self.user_def.profile.pk,
-                                          'food': potato.pk})
-        self.assertEqual(response_post.status_code, 302)
-        storage.refresh_from_db()
-        self.assertEqual(storage.user, self.user_def.profile)
-        self.assertEqual(storage.food, potato)
-
-    def test_food_storage_delete(self):
-        storage = create_storage(self.user_def.profile, self.carrot_item)
-        view = reverse('profiles:food_storage-delete', args=[storage.pk])
-        response_get = self.client.get(view)
-        self.assertEqual(response_get.status_code, 200)
-        self.assertTemplateUsed(response_get, 'UserFoodStorage/food_storage-delete.html')
-
-        self.assertEqual(response_get.resolver_match.func.__name__,
-                         UserFoodStorageDeleteView.as_view().__name__)
-
-        response_post = self.client.delete(view)
-        self.assertEqual(response_post.status_code, 302)
-
-        self.assertRaises(UserFoodStorage.DoesNotExist, UserFoodStorage.objects.get, id=storage.pk)
-
-
-class SelfProfileViewTest(TestCase):
+class SelfProfileViewTest(TransactionTestCase):
     def setUp(self) -> None:
         self.user_def = User.objects.create_user(username='setup')
         self.user_def.set_password('password')
@@ -297,7 +201,7 @@ class SelfProfileViewTest(TestCase):
         self.profile.save()
 
         for _ in range(3):
-            self.profile.daily_food.add(create_food_item('carrot'))
+            self.profile.food_items.add(create_food_item('carrot'))
 
     def test_self_profile_detail_view(self):
         view = reverse('profiles:user-profile')
@@ -335,23 +239,23 @@ class SelfProfileViewTest(TestCase):
             'form-INITIAL_FORMS': 0,
             'form-0-ingredient': carrot.pk,
             'form-0-quantity': 5,
+            'form-0-profile': self.user_def.profile.pk,
             'form-1-ingredient': potato.pk,
             'form-1-quantity': 7,
+            'form-1-profile': self.user_def.profile.pk,
         }
         response_post = self.client.post(view, post_data)
         self.assertEqual(response_post.status_code, 200)
 
         carrot_it_0 = FoodItem.objects.get(ingredient=carrot, quantity=5)
         potato_it_1 = FoodItem.objects.get(ingredient=potato, quantity=7)
-        carrot_ufi = UserFoodStorage.objects.get(food=carrot_it_0)
-        potato_ufi = UserFoodStorage.objects.get(food=potato_it_1)
 
-        self.assertEqual(carrot_ufi.user, self.profile)
-        self.assertEqual(carrot_ufi.food, carrot_it_0)
-        self.assertEqual(carrot_ufi.date, date.today())
-        self.assertEqual(potato_ufi.user, self.profile)
-        self.assertEqual(potato_ufi.food, potato_it_1)
-        self.assertEqual(potato_ufi.date, date.today())
+        self.assertEqual(carrot_it_0.profile, self.profile)
+        self.assertEqual(carrot_it_0.ingredient, carrot)
+        self.assertEqual(carrot_it_0.date, date.today())
+        self.assertEqual(potato_it_1.profile, self.profile)
+        self.assertEqual(potato_it_1.ingredient, potato)
+        self.assertEqual(potato_it_1.date, date.today())
 
     def test_user_food_storage(self):
         view = reverse('profiles:user-food_storage')
@@ -364,7 +268,7 @@ class SelfProfileViewTest(TestCase):
                          FoodStorageForCurrentUserListView.as_view().__name__)
 
         queryset_1 = response_get.context.get('object_list').order_by('date')
-        queryset_2 = UserFoodStorage.objects.filter(user=self.profile).order_by('date')
+        queryset_2 = FoodItem.objects.filter(profile=self.profile).order_by('date')
 
         self.assertEqual(list(queryset_1), list(queryset_2))
 
@@ -379,7 +283,7 @@ class SelfProfileViewTest(TestCase):
                          TodayFoodStorageForCurrentUserListView.as_view().__name__)
 
         queryset_1 = response_get.context.get('object_list').order_by('date')
-        queryset_2 = UserFoodStorage.objects.filter(user=self.profile, date=date.today()).order_by('date')
+        queryset_2 = FoodItem.objects.filter(profile=self.profile, date=date.today()).order_by('date')
 
         self.assertEqual(list(queryset_1), list(queryset_2))
 

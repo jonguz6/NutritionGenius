@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.test import TransactionTestCase
 
 from food_storage.models import FoodIngredient
-from profiles.models import FoodItem, Profile, UserFoodStorage
+from profiles.models import FoodItem, Profile
 
 
 def create_vegetable(name):
@@ -16,9 +16,11 @@ def create_vegetable(name):
                                                 calories=4)[0]
 
 
-def create_food_item(name, quantity=1):
+def create_food_item(name, quantity=1, profile=None):
     ingredient = create_vegetable(name)
-    return FoodItem.objects.create(ingredient=ingredient, quantity=quantity)
+    if not profile:
+        profile = Profile.objects.first()
+    return FoodItem.objects.create(ingredient=ingredient, quantity=quantity, profile=profile)
 
 
 class FoodItemModelTest(TransactionTestCase):
@@ -72,10 +74,10 @@ class ProfileModelTest(TransactionTestCase):
         profile = self.user_def.profile
         profile.refresh_from_db()
         for _ in range(3):
-            profile.daily_food.add(create_food_item('carrot'))
+            profile.food_items.add(create_food_item('carrot'))
         carrot = FoodIngredient.objects.get(name='carrot')
         for item in profile.daily_food_items:
-            self.assertEqual(item.food.ingredient, carrot)
+            self.assertEqual(item.ingredient, carrot)
         self.assertEqual(profile.calories_today, carrot.calories * 3)
         self.assertEqual(profile.carbs_today, carrot.carbohydrates * 3)
         self.assertEqual(profile.fats_today, carrot.fats * 3)
