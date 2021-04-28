@@ -1,20 +1,21 @@
 {% extends "base.html" %}
 {% load project_tags %}
 {% block title %}
-    <title>{{ object.food.ingredient }}</title>
+    <title>{{ object.ingredient }}</title>
 {% endblock %}
 {% block content %}
     <div class="container-fluid text-center ">
         <div class="row">
-            <h1 class="display-3">{{ object.food.ingredient }}</h1>
-        </div>
-        <div class="col-md-6 offset-md-3 padding">
-            <div><p class="lead pt-3 fw-bold">Date</p>{{ object.date }}</div>
-            <div><p class="lead pt-3 fw-bold">Calories</p>{{ object.food.calories }}</div>
-            <div><p class="lead pt-3 fw-bold">Carbs</p>{{ object.food.carbs }}</div>
-            <div><p class="lead pt-3 fw-bold">Fats</p>{{ object.food.fats }}</div>
-            <div><p class="lead pt-3 fw-bold">Protein</p>{{ object.food.protein }}</div>
-            <div><p class="lead pt-3 fw-bold">Quantity</p>{{ object.food.quantity }}</div>
+            <h1 class="display-3">{{ object.ingredient }}</h1>
+
+            <div class="col-md-6 offset-md-3 padding">
+                <div><p class="lead pt-3 fw-bold">Date</p>{{ object.date }}</div>
+                <div><p class="lead pt-3 fw-bold">Calories</p>{{ object.calories }}</div>
+                <div><p class="lead pt-3 fw-bold">Carbs</p>{{ object.carbs }}</div>
+                <div><p class="lead pt-3 fw-bold">Fats</p>{{ object.fats }}</div>
+                <div><p class="lead pt-3 fw-bold">Protein</p>{{ object.protein }}</div>
+                <div><p class="lead pt-3 fw-bold">Quantity</p>{{ object.quantity }}</div>
+            </div>
         </div>
     </div>
     <div class="col-md-6 offset-md-3 text-center">

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 
 from profiles.forms import ProfileForm
-from profiles.models import Profile, FoodItem, UserFoodStorage
+from profiles.models import Profile, FoodItem
 
 
 class ProfileInline(admin.StackedInline):
@@ -21,6 +21,5 @@ class MyUserAdmin(UserAdmin):
 
 admin.site.register(Profile)
 admin.site.register(FoodItem)
-admin.site.register(UserFoodStorage)
 admin.site.unregister(User)
 admin.site.register(User, MyUserAdmin)

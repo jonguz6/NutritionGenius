@@ -16,7 +16,7 @@ def check_user_has_access(instance, request):
     user = request.user
     profile = models.Profile.objects.get(user=user)
     checked_object = instance.get_object()
-    if profile == checked_object.user:
+    if profile == checked_object.profile:
         return True
     return False
 
@@ -91,85 +91,25 @@ class FoodItemDeleteView(PermissionRequiredMixin, views.DeleteView):
     success_url = reverse_lazy('profiles:food_item-list')
 
 
-class UserFoodStorageCreateView(PermissionRequiredMixin, views.CreateView):
-    permission_required = ('profiles.add_userfoodstorage', )
-    model = models.UserFoodStorage
-    form_class = forms.UserFoodStorageForm
-    template_name = "UserFoodStorage/food_storage-create.html"
-    success_url = reverse_lazy('profiles:food_storage-list')
-
-    def get_form_kwargs(self):
-        form_kwargs = super().get_form_kwargs()
-
-        profile_id = self.kwargs.get('prof_id')
-        if profile_id:
-            profile = models.Profile.objects.get(pk=profile_id)
-            form_kwargs['initial'].update({'user': profile})
-
-        food_id = self.kwargs.get('food_id')
-        if food_id:
-            food = models.FoodItem.objects.get(id=food_id)
-            form_kwargs['initial'].update({'food': food})
-
-        return form_kwargs
-
-    def post(self, request, *args, **kwargs):
-        post = request.POST.copy()
-        if post.get('user') is None:
-            prof_id = self.kwargs.get('prof_id')
-            profile = models.Profile.objects.get(pk=prof_id)
-            post['user'] = profile.user
-        request.POST = post
-        return super().post(request, *args, **kwargs)
-
-
-class UserFoodStorageListView(PermissionRequiredMixin, views.ListView):
-    permission_required = ('profiles.add_userfoodstorage', )
-    model = models.UserFoodStorage
-    template_name = "UserFoodStorage/food_storage-list.html"
-
-
 class FoodStorageForUserListView(PermissionRequiredMixin, views.ListView):
-    permission_required = ('profiles.view_userfoodstorage', )
-    model = models.UserFoodStorage
+    permission_required = ('profiles.view_fooditem', )
+    model = models.FoodItem
     template_name = "UserFoodStorage/food_storage-user-list.html"
 
     def get_queryset(self):
         pk = self.kwargs.get('prof_id')
-        return models.UserFoodStorage.objects.filter(user=pk)
+        return models.FoodItem.objects.filter(pk=pk)
 
 
 class FoodStorageForTodayListView(PermissionRequiredMixin, views.ListView):
-    permission_required = ('profiles.view_userfoodstorage', )
-    model = models.UserFoodStorage
+    permission_required = ('profiles.view_fooditem', )
+    model = models.FoodItem
     template_name = "UserFoodStorage/food_storage-user-list.html"
 
     def get_queryset(self):
         pk = self.kwargs.get('prof_id')
         today = date.today()
-        return models.UserFoodStorage.objects.filter(user=pk, date=today)
-
-
-class UserFoodStorageDetailView(PermissionRequiredMixin, views.DetailView):
-    permission_required = ('profiles.view_userfoodstorage', )
-    model = models.UserFoodStorage
-    template_name = "UserFoodStorage/food_storage-detail.html"
-
-
-class UserFoodStorageUpdateView(PermissionRequiredMixin, views.UpdateView):
-    permission_required = ('profiles.change_userfoodstorage', )
-    model = models.UserFoodStorage
-    form_class = forms.UserFoodStorageForm
-    template_name = "UserFoodStorage/food_storage-update.html"
-    success_url = reverse_lazy('profiles:food_storage-list')
-
-
-class UserFoodStorageDeleteView(PermissionRequiredMixin, views.DeleteView):
-    permission_required = ('profiles.delete_userfoodstorage', )
-    model = models.UserFoodStorage
-    template_name = "UserFoodStorage/food_storage-delete.html"
-    success_url = reverse_lazy('profiles:food_storage-list')
-
+        return models.FoodItem.objects.filter(user=pk, date=today)
 ###############
 # User Views #
 ##############
@@ -206,7 +146,7 @@ class SelfProfileDeleteView(LoginRequiredMixin, views.DeleteView):
 
 
 class FoodStorageForCurrentUserDetailView(LoginRequiredMixin, views.DetailView):
-    model = models.UserFoodStorage
+    model = models.FoodItem
     template_name = "Current-User/profile-food-detail.html"
 
     def get(self, request, *args, **kwargs):
@@ -217,9 +157,9 @@ class FoodStorageForCurrentUserDetailView(LoginRequiredMixin, views.DetailView):
 
 
 class FoodStorageForCurrentUserUpdateView(LoginRequiredMixin, views.UpdateView):
-    model = models.UserFoodStorage
+    model = models.FoodItem
     template_name = "Current-User/profile-food-update.html"
-    form_class = forms.UserFoodStorageForm
+    form_class = forms.FoodItemForm
 
     def get(self, request, *args, **kwargs):
         if check_user_has_access(self, request):
@@ -233,7 +173,7 @@ class FoodStorageForCurrentUserUpdateView(LoginRequiredMixin, views.UpdateView):
 
 
 class FoodStorageForCurrentUserDeleteView(LoginRequiredMixin, views.DeleteView):
-    model = models.UserFoodStorage
+    model = models.FoodItem
     template_name = "Current-User/profile-food-delete.html"
     success_url = reverse_lazy('profiles:user-today-food_storage')
 
@@ -245,24 +185,24 @@ class FoodStorageForCurrentUserDeleteView(LoginRequiredMixin, views.DeleteView):
 
 
 class FoodStorageForCurrentUserListView(LoginRequiredMixin, views.ListView):
-    model = models.UserFoodStorage
+    model = models.FoodItem
     template_name = "Current-User/profile-food-storage.html"
 
     def get_queryset(self):
         user = self.request.user
         profile = models.Profile.objects.get(user=user)
-        return models.UserFoodStorage.objects.filter(user=profile).order_by('-date')
+        return models.FoodItem.objects.filter(profile=profile).order_by('-date')
 
 
 class TodayFoodStorageForCurrentUserListView(LoginRequiredMixin, views.ListView):
-    model = models.UserFoodStorage
+    model = models.FoodItem
     template_name = "Current-User/profile-food-storage.html"
 
     def get_queryset(self):
         user = self.request.user
         today = date.today()
         profile = models.Profile.objects.get(user=user)
-        return models.UserFoodStorage.objects.filter(user=profile, date=today).order_by('-date')
+        return models.FoodItem.objects.filter(profile=profile, date=today).order_by('-date')
 
 
 @login_required(login_url=reverse_lazy('login'))
@@ -280,18 +220,13 @@ def user_food_storage_create_view(request):
                 item_ingredient = form_data.get('ingredient')
                 item_quantity = form_data.get('quantity')
                 try:
-                    item = models.FoodItem.objects.create(ingredient=item_ingredient, quantity=item_quantity)
+                    item = models.FoodItem.objects.create(ingredient=item_ingredient, quantity=item_quantity, profile=user.profile)
                 except IntegrityError:
                     pass
                 else:
                     item.save()
-                    try:
-                        storage = models.UserFoodStorage.objects.create(user=profile, food=item)
-                    except IntegrityError:
-                        pass
-                    else:
-                        storage.save()
-                        messages.success(request, "Your meal has been saved successfully!", extra_tags='alert-success')
+
+                    messages.success(request, "Your meal has been saved successfully!", extra_tags='alert-success')
         else:
             messages.error(request, "Save unsuccessful, make sure you entered a meal!", extra_tags='alert-danger')
     return render(

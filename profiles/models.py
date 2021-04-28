@@ -13,7 +13,11 @@ class FoodItem(models.Model):
                                    related_name="food_items",
                                    on_delete=models.PROTECT)
     quantity = models.FloatField(default=1)
-    
+    date = models.DateField(auto_now_add=True)
+    profile = models.ForeignKey('Profile',
+                                related_name="food_items",
+                                on_delete=models.CASCADE)
+
     @property
     def calories(self):
         return self.ingredient.calories * self.quantity
@@ -31,7 +35,7 @@ class FoodItem(models.Model):
         return self.ingredient.protein * self.quantity
 
     def __str__(self):
-        return f"{self.ingredient.__str__()} q:{self.quantity}"
+        return f"{self.ingredient} q:{self.quantity} d:{self.date} u:{self.profile}"
 
 
 class Profile(models.Model):
@@ -41,44 +45,41 @@ class Profile(models.Model):
                                 primary_key=True)
     weight = models.FloatField(null=True, blank=True)
     height = models.IntegerField(null=True, blank=True)
-    daily_food = models.ManyToManyField(FoodItem,
-                                        through="UserFoodStorage",
-                                        related_name="daily_food")
     calorie_goal = models.IntegerField(null=True, blank=True)
 
     @property
     def daily_food_items(self):
-        for item in self.food_storage.filter(date=date.today()):
+        for item in self.food_items.filter(date=date.today()):
             yield item
 
     @property
     def calories_today(self):
         calories = 0
         for item in self.daily_food_items:
-            calories += item.food.calories
+            calories += item.calories
         return calories
-    
+
     @property
     def carbs_today(self):
         carbs = 0
         for item in self.daily_food_items:
-            carbs += item.food.carbs
+            carbs += item.carbs
         return carbs
 
     @property
     def fats_today(self):
         fats = 0
         for item in self.daily_food_items:
-            fats += item.food.fats
+            fats += item.fats
         return fats
 
     @property
     def protein_today(self):
         protein = 0
         for item in self.daily_food_items:
-            protein += item.food.protein
+            protein += item.protein
         return protein
-    
+
     @property
     def calories_left_in_goal(self):
         if self.calorie_goal is None:
@@ -93,20 +94,6 @@ class Profile(models.Model):
         if self.user.first_name != "" or self.user.last_name != "":
             return f"{self.user.first_name} {self.user.last_name}"
         return f"username: {self.user.username}"
-
-
-class UserFoodStorage(models.Model):
-    date = models.DateField(auto_now_add=True)
-    user = models.ForeignKey(Profile,
-                             on_delete=models.CASCADE,
-                             related_name="food_storage")
-    food = models.ForeignKey(FoodItem,
-                             on_delete=models.CASCADE,
-                             related_name="food_storage",
-                             null=True)
-
-    def __str__(self):
-        return f"Storage of user {self.user.__str__()} for {self.date}"
 
 
 @receiver(post_save, sender=User)
@@ -128,4 +115,3 @@ def delete_user_account(sender, instance, **kwargs):
         pass
     else:
         instance.user.delete()
-

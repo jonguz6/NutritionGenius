@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from profiles.models import Profile, FoodItem, UserFoodStorage
+from profiles.models import Profile, FoodItem
 
 
 class UserForm(forms.ModelForm):
@@ -22,11 +22,4 @@ class FoodItemForm(forms.ModelForm):
 
     class Meta:
         model = FoodItem
-        fields = ("ingredient", "quantity")
-
-
-class UserFoodStorageForm(forms.ModelForm):
-
-    class Meta:
-        model = UserFoodStorage
-        fields = ("user", "food")
+        fields = ("ingredient", "quantity", "profile")
