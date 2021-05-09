@@ -24,7 +24,7 @@ def create_fruit(name):
 
 class IndexViewTest(TestCase):
     def setUp(self) -> None:
-        permissions = Permission.objects.filter(name__endswith='ingredient')
+        permissions = Permission.objects.filter(name__endswith='Ingredient')
         self.user_def = User.objects.create_user(username='setup')
         self.user_def.set_password('password')
         self.user_def.user_permissions.set(list(permissions))
@@ -43,7 +43,7 @@ class IndexViewTest(TestCase):
 
 class FoodCategoryViewTest(TestCase):
     def setUp(self) -> None:
-        permissions = Permission.objects.filter(name__endswith='category')
+        permissions = Permission.objects.filter(name__endswith='Category')
         self.user_def = User.objects.create_user(username='setup')
         self.user_def.set_password('password')
         self.user_def.user_permissions.set(list(permissions))
@@ -111,7 +111,7 @@ class FoodCategoryViewTest(TestCase):
 class FoodIngredientViewTest(TestCase):
 
     def setUp(self) -> None:
-        permissions = Permission.objects.filter(name__endswith='ingredient')
+        permissions = Permission.objects.filter(name__endswith='Ingredient')
         self.user_def = User.objects.create_user(username='setup')
         self.user_def.set_password('password')
         self.user_def.user_permissions.set(list(permissions))
