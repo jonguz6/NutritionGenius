@@ -41,7 +41,10 @@ jobs:
     - name: Collect Static
       run: python manage.py collectstatic
       env: 
+        DEBUG: "False"
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        ALLOWED_HOSTS: "*"
+        DATABASE_URL: "postgres://postgres:password@127.0.0.1:5432/postgres"
     - name: Run tests
       run: python manage.py test
       env:
