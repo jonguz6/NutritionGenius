@@ -12,10 +12,10 @@ class FoodCategoryModelTest(TransactionTestCase):
         self.fruits = FoodCategory.objects.create(name='Fruits')
 
     def test_category_is_created(self):
-        id_1 = FoodCategory.objects.get(id=1)
+        first = FoodCategory.objects.first()
         grains = FoodCategory.objects.get(name='Grains')
 
-        self.assertEqual(id_1, self.grains)
+        self.assertEqual(first, self.grains)
         self.assertEqual(grains, self.grains)
 
     def test_second_category_is_created(self):
