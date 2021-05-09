@@ -41,7 +41,7 @@ jobs:
     - name: Collect Static
       run: python manage.py collectstatic
       env: 
-        SECRET_KEY: ${{ secrests.SECRET_KEY }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
     - name: Run tests
       run: python manage.py test
       env:
