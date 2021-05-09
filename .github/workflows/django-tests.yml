@@ -5,9 +5,9 @@ name: Python application
 
 on:
   push:
-    branches: [ main ]
+    branches: [ jonguz6-patch-1 ]
   pull_request:
-    branches: [ main ]
+    branches: [ jonguz6-patch-1 ]
 
 jobs:
   build:
